@@ -18,7 +18,7 @@ An Angular 2 web app where people can freely download, upload, and store sheet m
 <li>Reman Koshaba- rkoshab1@asu.edu</li>
 <li>Kevin Duong- ktduong@asu.edu</li>
 <li>Jezreel Garcia - jgarci72@asu.edu</li>
-<li>Sang Le - (602) 802 3450 - sble1@asu.edu</li>
+<li>Sang Le - sble1@asu.edu</li>
 </ul>
 ### Resources Used
 <ul>

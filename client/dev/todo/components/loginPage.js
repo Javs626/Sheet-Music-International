@@ -9,17 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var todo1 = (function () {
-    function todo1() {
+var LoginPage = (function () {
+    function LoginPage() {
     }
-    todo1 = __decorate([
+    LoginPage = __decorate([
         core_1.Component({
-            selector: 'todo1',
-            templateUrl: 'todo/templates/todo1.html',
-            styleUrls: ['todo/styles/todo.css']
+            selector: 'login',
+            templateUrl: 'todo/templates/loginPage.html',
         }), 
         __metadata('design:paramtypes', [])
-    ], todo1);
-    return todo1;
+    ], LoginPage);
+    return LoginPage;
 }());
-exports.todo1 = todo1;
+exports.LoginPage = LoginPage;

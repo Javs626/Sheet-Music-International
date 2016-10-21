@@ -9,17 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var todo1 = (function () {
-    function todo1() {
+var HomePage = (function () {
+    function HomePage() {
     }
-    todo1 = __decorate([
+    HomePage = __decorate([
         core_1.Component({
-            selector: 'todo1',
-            templateUrl: 'todo/templates/todo1.html',
+            selector: 'home',
+            templateUrl: 'todo/templates/homePage.html',
             styleUrls: ['todo/styles/todo.css']
         }), 
         __metadata('design:paramtypes', [])
-    ], todo1);
-    return todo1;
+    ], HomePage);
+    return HomePage;
 }());
-exports.todo1 = todo1;
+exports.HomePage = HomePage;

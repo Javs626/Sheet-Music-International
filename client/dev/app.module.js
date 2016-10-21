@@ -12,7 +12,7 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var forms_1 = require('@angular/forms');
 var platform_browser_1 = require('@angular/platform-browser');
-var todo_cmp_1 = require('./todo/components/todo-cmp');
+var homePage_1 = require('./todo/components/homePage');
 var todo_service_1 = require('./todo/services/todo-service');
 var AppModule = (function () {
     function AppModule() {
@@ -25,13 +25,13 @@ var AppModule = (function () {
                 http_1.HttpModule,
             ],
             declarations: [
-                todo_cmp_1.TodoCmp,
+                homePage_1.HomePage,
             ],
             providers: [
                 todo_service_1.TodoService,
             ],
             bootstrap: [
-                todo_cmp_1.TodoCmp,
+                homePage_1.HomePage,
             ],
         }), 
         __metadata('design:paramtypes', [])
@@ -39,4 +39,3 @@ var AppModule = (function () {
     return AppModule;
 }());
 exports.AppModule = AppModule;
-//# sourceMappingURL=app.module.js.map

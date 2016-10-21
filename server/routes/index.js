@@ -14,4 +14,3 @@ var Routes = (function () {
     return Routes;
 }());
 exports.Routes = Routes;
-//# sourceMappingURL=index.js.map

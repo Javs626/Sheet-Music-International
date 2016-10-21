@@ -14,4 +14,3 @@ var DBConfig = (function () {
 }());
 exports.DBConfig = DBConfig;
 ;
-//# sourceMappingURL=db.conf.js.map

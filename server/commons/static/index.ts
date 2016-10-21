@@ -12,4 +12,12 @@ export class StaticDispatcher {
       fs.createReadStream(_root + '/client/dev/index.html')
         .pipe(res);
     }
+        static sendHomePage(req: express.Request, res: express.Response):void {
+      let _root = process.cwd();
+
+      res.type('.html');
+
+      fs.createReadStream(_root + '/client/dev/homePage/homePage.html')
+        .pipe(res);
+    }
 }

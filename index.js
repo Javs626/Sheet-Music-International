@@ -10,7 +10,7 @@ var mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost:27017/");
 var conn = mongoose.connection;
-
+var sheetMusicFile;
 var gfs;
 
 var Grid = require("gridfs-stream");
@@ -18,6 +18,7 @@ Grid.mongo = mongoose.mongo;
 
 conn.once("open", function(){
   gfs = Grid(conn.db);
+  sheetMusicFile = gfs.files;
   app.get("/", function(req,res){
     //renders a multipart/form-data form
     res.render("home");
@@ -32,11 +33,19 @@ conn.once("open", function(){
     //
     // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
     fs.createReadStream("./uploads/" + req.file.filename)
-      .on("end", function(){fs.unlink("./uploads/"+ req.file.filename, function(err){res.send("file is send!")})})
+      .on("end", function(){fs.unlink("./uploads/"+ req.file.filename, function(err){res.render("fileDisplay");})})
         .on("err", function(){res.send("Error uploading image")})
           .pipe(writestream);
   });
 
+app.get('/fileDisplay', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    //res.render("fileDisplay");
+		res.send(files);
+
+	});
+});
   app.post("/pop",function(req,res) {
     //res.send("hey");
     
@@ -71,6 +80,7 @@ conn.once("open", function(){
 });
 
   // sends the image we saved by filename.
+  /*
   app.get("/:filename", function(req, res){
       var readstream = gfs.createReadStream({filename: req.params.filename});
       readstream.on("error", function(err){
@@ -78,8 +88,9 @@ conn.once("open", function(){
       });
       readstream.pipe(res);
   });
-
+*/
   //delete the image
+  /*
   app.get("/delete/:filename", function(req, res){
     gfs.exist({filename: req.params.filename}, function(err, found){
       if(err) return res.send("Error occured");
@@ -92,7 +103,7 @@ conn.once("open", function(){
         res.send("No image found with that title");
       }
     });
-  });
+  });*/
 });
 
 app.set("view engine", "ejs");
@@ -104,30 +115,3 @@ if (!module.parent) {
   app.listen(3000);
 }
 
-/*
-(function () {
-  "use strict";
- 
-  var walk = require('walk')
-    , fs = require('fs')
-    , walker
-    ;
- 
-  walker = walk.walk("/tmp", options);
- 
-  walker.on("file", function (root, fileStats, next) {
-    fs.readFile(fileStats.name, function () {
-      // doStuff 
-      next();
-    });
-  });
- 
-  walker.on("errors", function (root, nodeStatsArray, next) {
-    next();
-  });
- 
-  walker.on("end", function () {
-    console.log("all done");
-  });
-}());
- */

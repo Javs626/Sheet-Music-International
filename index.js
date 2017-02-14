@@ -5,6 +5,7 @@ var fs = require("fs");
 var path = require("path");
 var multer = require("multer");
 var upload = multer({dest: "./uploads"});
+var http = require('http');
 
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/");
@@ -18,13 +19,14 @@ Grid.mongo = mongoose.mongo;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('/fileHandler.js', express.static(path.resolve('Client/fileHandler.js'), { maxAge: '30 days' }));
 
 conn.once("open", function(){
+  console.log("We are up and running!");
   gfs = Grid(conn.db);
   sheetMusicFile = gfs.files;
   app.get("/", function(req,res){
     //renders a multipart/form-data form
+
     res.render("home");
   });
 
@@ -42,25 +44,21 @@ conn.once("open", function(){
           .pipe(writestream);
   });
 
+//Displays All files currently in database in json format
 app.get('/fileDisplay', (req, res) => {
 	gfs.files.find({}).toArray((err, files) => {
 		if (err) return res.status(500).send(err);
-    //res.render("fileDisplay");
 		res.send(files);
-
 	});
 });
 
 app.get('/schoolMusic', (req, res) => {
 	gfs.files.find({}).toArray((err, files) => {
 		if (err) return res.status(500).send(err);
-    res.render("fileDisplay");
-		//res.send(files);
-
+    res.render("schoolMusic",{files:files});
 	});
 });
   app.post("/pop",function(req,res) {
-    //res.send("hey");
     
   "use strict";
  
@@ -73,15 +71,30 @@ app.get('/schoolMusic', (req, res) => {
   walker = walk.walk('./composers');
  
   walker.on("file", function (root, fileStats, next) {
+
+
+      
     fs.readFile(fileStats.name, function () {
       // doStuff 
       var name = fileStats.name;
       var path = root;
+      var mypath = "C:/Users/default.default-PC/Documents/GitHub/Sheet-Music-International/uploads/";
+          upload.single("avatar");
+    var writestream = gfs.createWriteStream({
+      filename: name
+    });
+    //
+    // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
+    fs.createReadStream(mypath + name)
+      .on("end", function(){fs.unlink(mypath + name, function(err){})})
+        .on("err", function(){res.send("Error uploading image")})
+          .pipe(writestream);
+
       console.log("File Name: " + name + "Path:"+ path );
       next();
     });
   });
- 
+
   walker.on("errors", function (root, nodeStatsArray, next) {
     next();
   });
@@ -93,15 +106,39 @@ app.get('/schoolMusic', (req, res) => {
 });
 
   // sends the image we saved by filename.
-  /*
-  app.get("/:filename", function(req, res){
-      var readstream = gfs.createReadStream({filename: req.params.filename});
+  
+  app.get("/file/:id", function(req, res){
+    getFileById(req.params.id);
+     /* var readstream = gfs.createReadStream({filename: req.params.filename});
       readstream.on("error", function(err){
         res.send("No image found with that title");
       });
-      readstream.pipe(res);
+      readstream.pipe(res);*/
   });
-*/
+
+exports.getFileById = function(req, res){
+
+gfs.findOne({ _id: req.params.ID, root: 'resume' }, function (err, file) {
+    if (err) {
+        return res.status(400).send(err);
+    }
+    else if (!file) {
+        return res.status(404).send('Error on the database looking for the file.');
+    }
+
+    res.set('Content-Type', file.contentType);
+    res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+
+    var readstream = gfs.createReadStream({
+      _id: req.params.ID
+    });
+
+    readstream.on("error", function(err) { 
+        res.end();
+    });
+    readstream.pipe(res);
+  });
+};
   //delete the image
   /*
   app.get("/delete/:filename", function(req, res){
@@ -121,8 +158,6 @@ app.get('/schoolMusic', (req, res) => {
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
-
-
 
 if (!module.parent) {
   app.listen(3000);

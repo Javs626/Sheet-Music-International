@@ -1,20 +1,24 @@
 var express = require("express");
 var app = express();
-
+const bodyParser = require('body-parser');
 var fs = require("fs");
-
+var path = require("path");
 var multer = require("multer");
 var upload = multer({dest: "./uploads"});
 
 var mongoose = require("mongoose");
-
 mongoose.connect("mongodb://localhost:27017/");
 var conn = mongoose.connection;
+
 var sheetMusicFile;
 var gfs;
 
 var Grid = require("gridfs-stream");
 Grid.mongo = mongoose.mongo;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use('/fileHandler.js', express.static(path.resolve('Client/fileHandler.js'), { maxAge: '30 days' }));
 
 conn.once("open", function(){
   gfs = Grid(conn.db);
@@ -43,6 +47,15 @@ app.get('/fileDisplay', (req, res) => {
 		if (err) return res.status(500).send(err);
     //res.render("fileDisplay");
 		res.send(files);
+
+	});
+});
+
+app.get('/schoolMusic', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    res.render("fileDisplay");
+		//res.send(files);
 
 	});
 });

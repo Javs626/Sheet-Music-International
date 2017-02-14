@@ -1,4 +1,4 @@
-/*
+
 function File(props) {
 	return (
 		<li className="list-group-item">
@@ -40,7 +40,7 @@ class App extends React.Component {
 		);
 	}
 }
-*/
+
 ReactDOM.render(
 	<App />,
 	document.getElementById('example')

@@ -58,6 +58,49 @@ app.get('/schoolMusic', (req, res) => {
     res.render("schoolMusic",{files:files});
 	});
 });
+
+app.get('/A-B', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    res.render("A-B",{files:files});
+	});
+});
+
+app.get('/C-E', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    res.render("C-E",{files:files});
+	});
+});
+
+app.get('/F-H', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    res.render("F-H",{files:files});
+	});
+});
+
+app.get('/I-N', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    res.render("I-N",{files:files});
+	});
+});
+
+app.get('/O-R', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    res.render("O-R",{files:files});
+	});
+});
+
+app.get('/S-Z', (req, res) => {
+	gfs.files.find({}).toArray((err, files) => {
+		if (err) return res.status(500).send(err);
+    res.render("S-Z",{files:files});
+	});
+});
+
   app.post("/pop",function(req,res) {
     
   "use strict";
@@ -78,7 +121,7 @@ app.get('/schoolMusic', (req, res) => {
       // doStuff 
       var name = fileStats.name;
       var path = root;
-      var mypath = "C:/Users/default.default-PC/Documents/GitHub/Sheet-Music-International/uploads/";
+      var mypath = "C:/Users/javs/Documents/GitHub/Sheet-Music-International/uploads/";
           upload.single("avatar");
     var writestream = gfs.createWriteStream({
       filename: name
@@ -106,23 +149,14 @@ app.get('/schoolMusic', (req, res) => {
 });
 
   // sends the image we saved by filename.
-  
-  app.get("/file/:id", function(req, res){
-    getFileById(req.params.id);
-     /* var readstream = gfs.createReadStream({filename: req.params.filename});
-      readstream.on("error", function(err){
-        res.send("No image found with that title");
-      });
-      readstream.pipe(res);*/
-  });
+  exports.getFileById = function(req, res){
 
-exports.getFileById = function(req, res){
-
-gfs.findOne({ _id: req.params.ID, root: 'resume' }, function (err, file) {
+gfs.findOne({ _id: req.params.ID}, function (err, file) {
     if (err) {
         return res.status(400).send(err);
     }
     else if (!file) {
+        console.log(req.params.ID);
         return res.status(404).send('Error on the database looking for the file.');
     }
 
@@ -139,6 +173,43 @@ gfs.findOne({ _id: req.params.ID, root: 'resume' }, function (err, file) {
     readstream.pipe(res);
   });
 };
+
+  app.get("/file/:id", function(req, res){
+    //getFileById(req.params.id);
+     /* var readstream = gfs.createReadStream({filename: req.params.id});
+      readstream.on("error", function(err){
+        res.send("No image found with that title");
+      });
+      readstream.pipe(res);*/
+
+      
+      gfs.findOne({ _id: req.params.id }, function (err, file) {
+        console.log(req.params.id);
+    if (err) {
+        return res.status(400).send(err);
+    }
+    else if (!file) {
+        return res.status(404).send('Error on the database looking for the file.');
+    }
+
+    res.set('Content-Type',  file.contentType);
+    res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+
+    var readstream = gfs.createReadStream({
+      _id: req.params.ID
+    });
+
+    readstream.on("error", function(err) { 
+        res.end();
+    });
+    readstream.pipe(res); 
+
+
+  });
+
+  });
+
+
   //delete the image
   /*
   app.get("/delete/:filename", function(req, res){

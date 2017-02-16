@@ -46,10 +46,15 @@ conn.once("open", function(){
 
   app.post("/search",function(req,res){
     var file = req.body.file;
-    gfs.files.find({filename:file}).toArray((err,files) =>{
+    console.log(file);
+    var query = "/.*" + file + ".*/";
+    console.log(query);
+    //res.send("ASDF");
+    
+    gfs.files.find({filename: new RegExp(file, 'i') }).toArray((err,files) =>{
  		if (err) return res.status(500).send(err);
-		//res.render("results",{files:files}); 
-    res.send(files);    
+		res.render("results",{files:files}); 
+    //res.send(files);    
     });
   });
 

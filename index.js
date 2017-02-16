@@ -125,30 +125,35 @@ app.get('/S-Z', (req, res) => {
     ,options
     ;
  
-  walker = walk.walk('./composers');
+  walker = walk.walk('./master-composers');
  
-  walker.on("file", function (root, fileStats, next) {
-
-
-      
+  walker.on("file", function (root, fileStats, next) {  
     fs.readFile(fileStats.name, function () {
       // doStuff 
+      var path1 = fileStats.path;
+      var path2 = fileStats;
+      //console.log(fileStats);
       var name = fileStats.name;
-      var path = root;
+      var path = root + "\\";
+      //console.log(path);
       var mypath = "C:/Users/javs/Documents/GitHub/Sheet-Music-International/uploads/";
-          upload.single("avatar");
+      var fPath = path + name;
+      console.log(fPath);
+    upload.single("avatar");
     var writestream = gfs.createWriteStream({
       filename: name
     });
     //
     // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
-    fs.createReadStream(mypath + name)
-      .on("end", function(){fs.unlink(mypath + name, function(err){})})
-        .on("err", function(){res.send("Error uploading image")})
+    fs.createReadStream(fPath)
+      .on("end", function(){})
+        .on("err", function(){console.log(success)})
           .pipe(writestream);
 
-      console.log("File Name: " + name + "Path:"+ path );
+      //console.log("File Name: " + name + "Path:"+ path );
+      
       next();
+
     });
   });
 

@@ -39,9 +39,18 @@ conn.once("open", function(){
     //
     // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
     fs.createReadStream("./uploads/" + req.file.filename)
-      .on("end", function(){fs.unlink("./uploads/"+ req.file.filename, function(err){res.render("fileDisplay");})})
+      .on("end", function(){fs.unlink("./uploads/"+ req.file.filename, function(err){res.send("File Sent!");})})
         .on("err", function(){res.send("Error uploading image")})
           .pipe(writestream);
+  });
+
+  app.post("/search",function(req,res){
+    var file = req.body.file;
+    gfs.files.find({filename:file}).toArray((err,files) =>{
+ 		if (err) return res.status(500).send(err);
+		//res.render("results",{files:files}); 
+    res.send(files);    
+    });
   });
 
 //Displays All files currently in database in json format

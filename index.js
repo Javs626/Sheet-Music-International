@@ -91,17 +91,47 @@ conn.once("open", function () {
         var name = fileStats.name;
         var path = root + "\\"; // path without file name
         var fPath = path + name; // path with file name
-        console.log(fPath);
+        //console.log(fPath);
+      
+
+  // make sure we get a newly initialized levels variable each time (we might not need this)
+  var levels = '';
+  //splits the path string by the characters specified below and then returns levels as an array of strings
+  levels = path
+  .split('.').toString()
+  .split("/").toString()
+  .split("\\").toString()
+  .split('+').toString()
+  .split('~').toString()
+  .split(',');
+  // filter out any blank entries as a result of string splitting
+  levels = levels.filter(function(levels){return levels.trim() != ''});
+  // in order to not have any possible null exceptions, we see if the array
+  //value is undefined, if we have a value set it to its corresponding levels
+  //else set it to an empty string
+  var pathRootLevel = ((levels[0] != undefined) ? levels[0]:'');
+  var composerLevel = ((levels[1] != undefined) ? levels[1]:'');
+  var pieceTypeorTitleLevel = ((levels[2] != undefined) ? levels[2]:'');
+  var pieceTitleLevel = ((levels[3] != undefined) ? levels[3]:'');
+  //for debugging to see if each level is formatted correctly
+  console.log(pathRootLevel + " " + composerLevel + " " + pieceTypeorTitleLevel + " " + pieceTitleLevel);
+        /*
         upload.single("avatar");
         var writestream = gfs.createWriteStream({
-          filename: name
+          filename: name,
+          metadata: {
+            composerType: pathRootLevel,
+            composer: composerLevel,
+            pieceTypeorTitle: pieceTypeorTitleLevel,
+            pieceTitle: pieceTitleLevel,
+          }
         });
         //
         // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
         fs.createReadStream(fPath)
           .on("end", function () { })
           .on("err", function () { console.log(success) })
-          .pipe(writestream);
+          .pipe(writestream);*/
         next();// go to the next file in the tree
 
       });

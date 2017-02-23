@@ -115,7 +115,7 @@ conn.once("open", function () {
   var pieceTitleLevel = ((levels[3] != undefined) ? levels[3]:'');
   //for debugging to see if each level is formatted correctly
   console.log(pathRootLevel + " " + composerLevel + " " + pieceTypeorTitleLevel + " " + pieceTitleLevel);
-        /*
+        
         upload.single("avatar");
         var writestream = gfs.createWriteStream({
           filename: name,
@@ -131,9 +131,8 @@ conn.once("open", function () {
         fs.createReadStream(fPath)
           .on("end", function () { })
           .on("err", function () { console.log(success) })
-          .pipe(writestream);*/
+          .pipe(writestream);
         next();// go to the next file in the tree
-
       });
     });
 

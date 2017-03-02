@@ -220,11 +220,11 @@ conn.once("open", function () {
       // We need to check if the file is a pdf, it is not a pdf, skip
       var fileType = name.split('.');
       fileType = fileType[1].toLowerCase();
-      console.log(fileType[1].toLowerCase());
+      //console.log(fileType[1].toLowerCase());
 
-      if (fileType == "pdf"){
+     // if (fileType == "pdf"){
         
-        console.log("file type pdf confirmed");
+      //  console.log("file type pdf confirmed");
 
   // make sure we get a newly initialized levels variable each time (we might not need this)
   var levels = '';
@@ -288,9 +288,9 @@ conn.once("open", function () {
         // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
         fs.createReadStream(fPath)
           .on("end", function () { })
-          .on("err", function () { console.log(success) })
+          .on("err", function () { console.log('success') })
           .pipe(writestream);
-      }
+    //  }
         next();// go to the next file in the tree
       });
     });
@@ -301,6 +301,7 @@ conn.once("open", function () {
 
     walker.on("end", function () {
       console.log("all done");
+      res.render("home");
     });
   });
 

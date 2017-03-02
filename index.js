@@ -45,7 +45,11 @@ conn.once("open", function () {
   });
 
   app.post("/search", function (req, res) {
-    var file = req.body.file;
+    var file = req.body.file.toString();
+    var searchTerms = file.split(" ");
+
+    console.log(file);
+    console.log(searchTerms);
     gfs.files.find({ filename: new RegExp(file, 'i') }).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("search", { files: files });

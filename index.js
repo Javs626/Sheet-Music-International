@@ -215,14 +215,14 @@ conn.once("open", function () {
         var name = fileStats.name;
         var path = root + "\\"; // path without file name
         var fPath = path + name; // path with file name
-        //console.log(name);
+
       console.log(fPath);
       // We need to check if the file is a pdf, it is not a pdf, skip
       var fileType = name.split('.');
       fileType = fileType[1].toLowerCase();
       //console.log(fileType[1].toLowerCase());
 
-     // if (fileType == "pdf"){
+      if (fileType == "pdf"){
         
       //  console.log("file type pdf confirmed");
 
@@ -273,11 +273,12 @@ conn.once("open", function () {
     " Title: " + pieceTitleLevel);*/
         
         /*
-                  metadata: {
+          metadata: {
             composerType: pathRootLevel,
-            composer: composerLevel,
-            pieceTypeorTitle: pieceTypeorTitleLevel,
-            pieceTitle: pieceTitleLevel,
+            composerName: composerLevel,
+            compositionType: pieceTypeorTitleLevel,
+            compositionTitle: pieceTitleLevel,
+            instrumentType: instrument,
             approved: true
           } */
         upload.single("avatar");
@@ -290,7 +291,7 @@ conn.once("open", function () {
           .on("end", function () { })
           .on("err", function () { console.log('success') })
           .pipe(writestream);
-    //  }
+      }
         next();// go to the next file in the tree
       });
     });

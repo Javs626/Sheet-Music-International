@@ -48,7 +48,7 @@ conn.once("open", function () {
     var file = req.body.file;
     gfs.files.find({ filename: new RegExp(file, 'i') }).toArray((err, files) => {
       if (err) return res.status(500).send(err);
-      res.render("results", { files: files });
+      res.render("search", { files: files });
     });
   });
 

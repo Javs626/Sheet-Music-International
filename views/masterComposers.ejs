@@ -86,7 +86,7 @@
         <% if(file.filename.charAt(0).toLowerCase() == 'a' ||
         file.filename.charAt(0).toLowerCase() == 'b') { console.log(file.filename) %>
  <a href="/file/<%= file._id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= file.filename %></h4>
+      <h4 class="list-group-item-heading"><%= file.filename.replace(/\.[^/.]+$/, "") %></h4>
       <p class="list-group-item-text"><%= file.id %></p>
         <% } %>
    <%  }) %>

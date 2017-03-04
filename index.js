@@ -50,11 +50,19 @@ conn.once("open", function () {
 
     console.log(file);
     console.log(searchTerms);
-    gfs.files.find({ filename: new RegExp(file, 'i') }).toArray((err, files) => {
+    
+    //{ filename: { $regex: /^A/i } }
+    
+ gfs.files.find({ filename: new RegExp(file, 'i') }).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("search", { files: files });
     });
-  });
+});
 
   //Displays All files currently in database in json format
   app.get('/fileDisplay', (req, res) => {
@@ -72,7 +80,7 @@ conn.once("open", function () {
   });
 
   app.get('/alphabetical/:range', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
+    gfs.files.find({}).sort( {filename:1} ).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("masterComposers.ejs", { files: files });
     });

@@ -138,7 +138,7 @@ conn.once("open", function () {
       res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
 
       var readstream = gfs.createReadStream({
-        _id: req.params.ID
+        _id: req.params.id
       });
 
       readstream.on("error", function (err) {

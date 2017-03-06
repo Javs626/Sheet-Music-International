@@ -79,10 +79,75 @@ conn.once("open", function () {
     });
   });
 
-  app.get('/alphabetical/:range', (req, res) => {
-    gfs.files.find({}).sort( {filename:1} ).toArray((err, files) => {
+  app.get('/alphabetical/ab', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("masterComposers.ejs", { files: files });
+    });
+  });
+
+   app.get('/alphabetical/ce', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalCE.ejs", { files: files });
+    });
+  });
+
+     app.get('/alphabetical/fh', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalFH.ejs", { files: files });
+    });
+  });
+
+       app.get('/alphabetical/in', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalIN.ejs", { files: files });
+    });
+  });
+
+       app.get('/alphabetical/or', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalOR.ejs", { files: files });
+    });
+  });
+
+      app.get('/alphabetical/sz', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalSZ.ejs", { files: files });
     });
   });
 

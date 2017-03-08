@@ -45,13 +45,12 @@ exports.getInstrument = function(instrument){
       var instrumentToLowercase = instrument.toLowerCase();
       for (var i = 0; i < instrumentType.length; i++) {
 if(instrumentToLowercase.includes(instrumentType[i])){
-                console.log("true");
         return instrumentType[i];
       }
     }
     return "";
 }
-
+/*
 exports.isInstrument = function(instrument){
       var instrumentToLowercase = instrument.toLowerCase();
       for (var i = 0; i < instrumentType.length; i++) {
@@ -63,3 +62,5 @@ exports.isInstrument = function(instrument){
       }
     }
 }
+*/
+

@@ -83,7 +83,6 @@ var compositionType = [
 
 exports.getComposition = function(composition){
       var compositionToLowercase = composition.toLowerCase();
-      console.log(compositionToLowercase);
       for (var i = 0; i < compositionType.length; i++) {
       if(compositionToLowercase.includes(compositionType[i])){
 
@@ -94,6 +93,7 @@ exports.getComposition = function(composition){
     return "";
 }
 
+/*
 exports.isComposition = function(composition){
       var compositionToLowercase = composition.toLowerCase();
       for (var i = 0; i < compositionType.length; i++) {
@@ -105,3 +105,4 @@ exports.isComposition = function(composition){
       }
     }
 }
+*/

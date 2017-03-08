@@ -95,93 +95,61 @@ conn.once("open", function () {
         var path = root + "\\"; // path without file name
         var fPath = path + name; // path with file name
 
-      //console.log(fPath);
-      // We need to check if the file is a pdf, it is not a pdf, skip
-      var fileType = name.split('.');
-      fileType = fileType[1].toLowerCase();
-      //console.log(fileType[1].toLowerCase());
+        console.log(fPath);
+        // We need to check if the file is a pdf, it is not a pdf, skip
+        var fileType = name.split('.');
+        fileType = fileType[1].toLowerCase();
+        //console.log(fileType[1].toLowerCase());
 
-      if (fileType == "pdf"){
-        
-      //  console.log("file type pdf confirmed");
+        if (fileType == "pdf") {
 
-  // make sure we get a newly initialized levels variable each time (we might not need this)
-  var levels = '';
-  //splits the path string by the characters specified below and then returns levels as an array of strings
-  levels = path
-  .split('.').toString()
-  .split("/").toString()
-  .split("\\").toString()
-  .split('+').toString()// we can leverage these characters in search
-  .split('~').toString()
-  .split(',');
-  // filter out any blank entries as a result of string splitting
-  levels = levels.filter(function(levels){return levels.trim() != ''});
-  // in order to not have any possible null exceptions, we see if the array
-  //value is undefined, if we have a value set it to its corresponding levels
-  //else set it to an empty string
-  var pathRootLevel = ((levels[0] != undefined) ? levels[0]:'');
-  var composerLevel = ((levels[1] != undefined) ? levels[1]:'');
+          //  console.log("file type pdf confirmed");
 
-  var typeOfInstrument = instrType.getInstrument(fPath);
+          // make sure we get a newly initialized levels variable each time (we might not need this)
+          var levels = '';
+          //splits the path string by the characters specified below and then returns levels as an array of strings
+          levels = path
+            .split('.').toString()
+            .split("/").toString()
+            .split("\\").toString()
+            .split('+').toString()// we can leverage these characters in search
+            .split('~').toString()
+            .split(',');
 
+          levels = levels.filter(function (levels) { return levels.trim() != '' });
 
-  var typeOfComposition = compType.getComposition(fPath);
+          var pathRootLevel = ((levels[0] != undefined) ? levels[0] : '');
+          var composerLevel = ((levels[1] != undefined) ? levels[1] : '');
+          var typeOfInstrument = instrType.getInstrument(fPath);
+          var typeOfComposition = compType.getComposition(fPath);
+          var compositionTitle = getCompositionTitle(levels);
+/*
+          console.log("composerType: " + pathRootLevel);
+          console.log("composerName: " + composerLevel);
+          console.log("composition: " + typeOfComposition);
+          console.log("instrument: " + typeOfInstrument);
+          console.log("title: " + compositionTitle);
+*/
+          upload.single("avatar");
+          var writestream = gfs.createWriteStream({
+            filename: name,
 
-
-
-
-  // depending on the depth of the path, level 2 could either be a type or title
-  var compositionTitle = "";
-for(var i = levels.length-1; i>1;i--){
-  if(instrType.getInstrument(levels[i]) =="" && compType.getComposition(levels[i]) ==""){
-      compositionTitle = levels[i];
-  }
-}
-console.log("composerType: " + pathRootLevel);
-console.log("composerName: " + composerLevel);
-  console.log("composition: "+typeOfComposition);
-  console.log("instrument: "+typeOfInstrument);
-  console.log("title: " + compositionTitle);
-  //var pieceTitleLevel = ((levels[3] != undefined) ? levels[3]:'');
-
-  //for debugging to see if each level is formatted correctly
- /* console.log(
-    "Path Root: " + pathRootLevel + 
-    " Composer: " + composerLevel + 
-    " Piece Type: " + pieceTypeLevel + 
-    " Instrument Type: " + pieceInstrumentLevel +
-    " Title: " + pieceTitleLevel);*/
-        
-        /*
-          metadata: {
-            composerType: pathRootLevel,
-            composerName: composerLevel,
-            compositionType: pieceTypeorTitleLevel,
-            compositionTitle: pieceTitleLevel,
-            instrumentType: instrument,
-            approved: true
-          } */
-        upload.single("avatar");
-        var writestream = gfs.createWriteStream({
-          filename: name,
-                  
-          metadata: {
-            composerType: pathRootLevel,
-            composerName: composerLevel,
-            compositionType: typeOfComposition,
-            compositionTitle: compositionTitle,
-            instrumentType: typeOfInstrument,
-            approved: true
-          }
-        });
-        //
-        // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
-        fs.createReadStream(fPath)
-          .on("end", function () { })
-          .on("err", function () { console.log('success') })
-          .pipe(writestream);
-      }
+            metadata: {
+              composerType: pathRootLevel,
+              composerName: composerLevel,
+              compositionType: typeOfComposition,
+              compositionTitle: compositionTitle,
+              instrumentType: typeOfInstrument,
+              approved: true
+            }
+          });
+          //
+          // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
+          fs.createReadStream(fPath)
+            .on("end", function () { })
+            .on("err", function () { console.log('success') })
+            .pipe(writestream);
+        }
         next();// go to the next file in the tree
       });
     });
@@ -240,7 +208,14 @@ console.log("composerName: " + composerLevel);
     });
   });
 
-
+  var getCompositionTitle = function (composition) {
+    for (var i = composition.length - 1; i > 1; i--) {
+      if (instrType.getInstrument(composition[i]) == "" && compType.getComposition(composition[i]) == "") {
+        return composition[i];
+      }
+    }
+    return "";
+  }
   //delete the image
   /*
   app.get("/delete/:filename", function(req, res){

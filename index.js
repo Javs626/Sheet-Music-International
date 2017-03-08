@@ -130,28 +130,21 @@ conn.once("open", function () {
 
 
 
+
+  // depending on the depth of the path, level 2 could either be a type or title
+  var compositionTitle = "";
+for(var i = levels.length-1; i>1;i--){
+  if(instrType.getInstrument(levels[i]) =="" && compType.getComposition(levels[i]) ==""){
+      compositionTitle = levels[i];
+  }
+}
+console.log("composerType: " + pathRootLevel);
+console.log("composerName: " + composerLevel);
   console.log("composition: "+typeOfComposition);
   console.log("instrument: "+typeOfInstrument);
-  // depending on the depth of the path, level 2 could either be a type or title
-  var pieceTypeLevel = '';
-  var pieceTitleLevel = '';
+  console.log("title: " + compositionTitle);
   //var pieceTitleLevel = ((levels[3] != undefined) ? levels[3]:'');
-  if(levels[2] != undefined && compType.isComposition(levels[2]) == true){
-    pieceTypeLevel = levels[2];
-  }
-  else if (levels[2] != undefined && instrType.isInstrument(levels[2]) == true){
-    pieceInstrumentLevel = levels[2];
-  }
-  else if(levels[2] != undefined){
-    pieceTitleLevel = levels[2];
-  }
 
-  if (levels[3] != undefined && instrType.isInstrument(levels[3]) == true) {
-    pieceInstrumentLevel = levels[3];
-  }
-  else if(levels[3] != undefined) {
-    pieceTitleLevel = levels[3];
-  }
   //for debugging to see if each level is formatted correctly
  /* console.log(
     "Path Root: " + pathRootLevel + 
@@ -171,7 +164,16 @@ conn.once("open", function () {
           } */
         upload.single("avatar");
         var writestream = gfs.createWriteStream({
-          filename: name
+          filename: name,
+                  
+          metadata: {
+            composerType: pathRootLevel,
+            composerName: composerLevel,
+            compositionType: typeOfComposition,
+            compositionTitle: compositionTitle,
+            instrumentType: typeOfInstrument,
+            approved: true
+          }
         });
         //
         // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.

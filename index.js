@@ -83,7 +83,7 @@ conn.once("open", function () {
   });
 
   app.get('/alphabetical/ab', (req, res) => {
-    gfs.files.find({}).collation({
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
 }).sort({
@@ -95,7 +95,7 @@ conn.once("open", function () {
   });
 
    app.get('/alphabetical/ce', (req, res) => {
-    gfs.files.find({}).collation({
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
 }).sort({
@@ -107,7 +107,7 @@ conn.once("open", function () {
   });
 
      app.get('/alphabetical/fh', (req, res) => {
-    gfs.files.find({}).collation({
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
 }).sort({
@@ -119,19 +119,20 @@ conn.once("open", function () {
   });
 
        app.get('/alphabetical/in', (req, res) => {
-    gfs.files.find({}).collation({
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
 }).sort({
     filename: 1
 }).toArray((err, files) => {
       if (err) return res.status(500).send(err);
-      res.render("alphabeticalIN.ejs", { files: files });
+
+      res.render("alphabeticalIN.ejs", { files:files.unique() });
     });
   });
 
        app.get('/alphabetical/or', (req, res) => {
-    gfs.files.find({}).collation({
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
 }).sort({
@@ -143,7 +144,7 @@ conn.once("open", function () {
   });
 
       app.get('/alphabetical/sz', (req, res) => {
-    gfs.files.find({}).collation({
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
 }).sort({
@@ -200,6 +201,7 @@ conn.once("open", function () {
           var typeOfInstrument = instrType.getInstrument(fPath);
           var typeOfComposition = compType.getComposition(fPath);
           var compositionTitle = getCompositionTitle(levels);
+
 /*
           console.log("composerType: " + pathRootLevel);
           console.log("composerName: " + composerLevel);
@@ -253,6 +255,25 @@ conn.once("open", function () {
       }
     }
   }
+
+  var makeUnique = function(array){
+	array.sort();
+	var re=[array[0]];
+	for(var i = 1; i < array.length; i++)
+	{
+		if( array[i] !== re[re.length-1])
+		{
+			re.push(array[i]); 
+		}
+	}
+	return re;
+  }
+
+  Array.prototype.unique = function() {
+  return this.filter(function (value, index, self) { 
+    return self.indexOf(value) === index;
+  });
+}
 
   app.get("/file/:id", function (req, res) {
     //getFileById(req.params.id);

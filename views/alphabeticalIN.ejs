@@ -83,10 +83,10 @@
     </table>
     <ul>
     <% files.forEach((file) => {%>
-        <% if(file.filename.charAt(0).toLowerCase() == 'i' || file.filename.charAt(0).toLowerCase() == 'j' ||
-        file.filename.charAt(0).toLowerCase() == 'k' || file.filename.charAt(0).toLowerCase() == 'l' || file.filename.charAt(0).toLowerCase() == 'm' || file.filename.charAt(0).toLowerCase() == 'n') { console.log(file.filename) %>
+        <% if(file.metadata.composerName.charAt(0).toLowerCase() == 'i' || file.metadata.composerName.charAt(0).toLowerCase() == 'j' ||
+        file.metadata.composerName.charAt(0).toLowerCase() == 'k' || file.metadata.composerName.charAt(0).toLowerCase() == 'l' || file.metadata.composerName.charAt(0).toLowerCase() == 'm' || file.filename.charAt(0).toLowerCase() == 'n') { console.log(file.filename) %>
  <a href="/file/<%= file._id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= file.filename.replace(/\.[^/.]+$/, "") %></h4>
+      <h4 class="list-group-item-heading"><%= file.metadata.composerName.replace(/\.[^/.]+$/, "") %></h4>
       <p class="list-group-item-text"><%= file.id %></p>
         <% } %>
    <%  }) %>

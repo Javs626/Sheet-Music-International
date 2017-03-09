@@ -45,12 +45,24 @@ conn.once("open", function () {
   });
 
   app.post("/search", function (req, res) {
-    var file = req.body.file;
-    gfs.files.find({ filename: new RegExp(file, 'i') }).toArray((err, files) => {
+    var file = req.body.file.toString();
+    var searchTerms = file.split(" ");
+
+    console.log(file);
+    console.log(searchTerms);
+    
+    //{ filename: { $regex: /^A/i } }
+    
+ gfs.files.find({ filename: new RegExp(file, 'i') }).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("search", { files: files });
     });
-  });
+});
 
   //Displays All files currently in database in json format
   app.get('/fileDisplay', (req, res) => {
@@ -67,10 +79,75 @@ conn.once("open", function () {
     });
   });
 
-  app.get('/alphabetical/:range', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
+  app.get('/ab', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("masterComposers.ejs", { files: files });
+    });
+  });
+
+   app.get('/ce', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalCE.ejs", { files: files });
+    });
+  });
+
+     app.get('/fh', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalFH.ejs", { files: files });
+    });
+  });
+
+       app.get('/in', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalIN.ejs", { files: files });
+    });
+  });
+
+       app.get('/or', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalOR.ejs", { files: files });
+    });
+  });
+
+      app.get('/sz', (req, res) => {
+    gfs.files.find({}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("alphabeticalSZ.ejs", { files: files });
     });
   });
 
@@ -118,12 +195,6 @@ conn.once("open", function () {
 
 
   app.get("/file/:id", function (req, res) {
-    //getFileById(req.params.id);
-    /* var readstream = gfs.createReadStream({filename: req.params.id});
-     readstream.on("error", function(err){
-       res.send("No image found with that title");
-     });
-     readstream.pipe(res);*/
 
     gfs.findOne({ _id: req.params.id }, function (err, file) {
       console.log(req.params.id);
@@ -138,7 +209,7 @@ conn.once("open", function () {
       res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
 
       var readstream = gfs.createReadStream({
-        _id: req.params.ID
+        _id: req.params.id
       });
 
       readstream.on("error", function (err) {
@@ -149,21 +220,7 @@ conn.once("open", function () {
   });
 
 
-  //delete the image
-  /*
-  app.get("/delete/:filename", function(req, res){
-    gfs.exist({filename: req.params.filename}, function(err, found){
-      if(err) return res.send("Error occured");
-      if(found){
-        gfs.remove({filename: req.params.filename}, function(err){
-          if(err) return res.send("Error occured");
-          res.send("Image deleted!");
-        });
-      } else{
-        res.send("No image found with that title");
-      }
-    });
-  });*/
+
 });
 
 app.set("view engine", "ejs");

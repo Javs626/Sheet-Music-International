@@ -82,7 +82,7 @@
       </tbody>
     </table>
     <ul>
-    <% files.forEach((file) => {%>
+    <% files.unique().forEach((file) => {%>
         <% if(file.metadata.composerName.charAt(0).toLowerCase() == 'i' || file.metadata.composerName.charAt(0).toLowerCase() == 'j' ||
         file.metadata.composerName.charAt(0).toLowerCase() == 'k' || file.metadata.composerName.charAt(0).toLowerCase() == 'l' || file.metadata.composerName.charAt(0).toLowerCase() == 'm' || file.filename.charAt(0).toLowerCase() == 'n') { console.log(file.filename) %>
  <a href="/file/<%= file._id %>" class="list-group-item">

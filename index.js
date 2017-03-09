@@ -8,7 +8,9 @@ var upload = multer({ dest: "./uploads" });
 var http = require('http');
 
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/");
+var uri = "mongodb://127.0.0.1/";
+var options = { server: { socketOptions: { connectTimeoutMS: 10000 }}};
+mongoose.connect(uri,options);
 var conn = mongoose.connection;
 
 var sheetMusicFile;
@@ -126,8 +128,7 @@ conn.once("open", function () {
     filename: 1
 }).toArray((err, files) => {
       if (err) return res.status(500).send(err);
-
-      res.render("alphabeticalIN.ejs", { files:files.unique() });
+      res.render("alphabeticalIN.ejs", { files:files });
     });
   });
 
@@ -158,7 +159,7 @@ conn.once("open", function () {
   app.post("/pop", function (req, res) {
 
     "use strict";
-
+      res.render("home");
     var walk = require('walk')
       , fs = require('fs')
       , walker
@@ -196,8 +197,8 @@ conn.once("open", function () {
 
           levels = levels.filter(function (levels) { return levels.trim() != '' });
 
-          var pathRootLevel = ((levels[0] != undefined) ? levels[0] : '');
-          var composerLevel = ((levels[1] != undefined) ? levels[1] : '');
+          var pathRootLevel = ((levels[0] != undefined) ? levels[0].toLowerCase() : '');
+          var composerLevel = ((levels[1] != undefined) ? levels[1].toLowerCase() : '');
           var typeOfInstrument = instrType.getInstrument(fPath);
           var typeOfComposition = compType.getComposition(fPath);
           var compositionTitle = getCompositionTitle(levels);
@@ -239,7 +240,6 @@ conn.once("open", function () {
 
     walker.on("end", function () {
       console.log("all done");
-      res.render("home");
     });
   });
 

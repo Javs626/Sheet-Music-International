@@ -3,6 +3,11 @@
     <p style="font-family: times; font-weight: bold; font-size: 24px; text-align: center;"> Free downloadable public domain sheet music.  </p>
 <table width="72%" style="margin-left: 14%"><tr>
   <td style=" background-color: #C0C0C0; border:3px solid black; height: 104px; width: 90%" class="form-inline">
+  <div >
+  <form action="/search" method="POST" >
+  <input type="text" name="file">
+  <input type="submit" value="Search">
+</form>             </div>
     <span style="width: 75%">          
       <b> <font size="4" face="Blackadder ITC"> 
             <a href="/">Home</span></a>
@@ -25,7 +30,7 @@
           </font>
       </b>
       <b> <font size="4" face="Blackadder ITC"> 
-            <a href="index.html">FAQ</span></a>
+            <a href="/faq">FAQ</span></a>
             <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
           </font>
       </b>
@@ -55,10 +60,7 @@
                             <a href="/or">O-R</a>,&nbsp;
                             <a href="/sz">S-Z</a>&nbsp;&nbsp;&nbsp;</font></b><b><font
                             size="4" face="Blackadder ITC"></font></b></div>    
-                            <form action="/search" method="POST" >
-  <input type="text" name="file">
-  <input type="submit" value="submit">
-</form>             
+                            
 </td>
 </tr>
 </table>

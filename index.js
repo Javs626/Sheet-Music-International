@@ -19,6 +19,7 @@ Grid.mongo = mongoose.mongo;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use( express.static( "public" ) );
 
 conn.once("open", function () {
   console.log("We are up and running!");
@@ -78,6 +79,13 @@ conn.once("open", function () {
       res.render("schoolMusic", { files: files });
     });
   });
+  app.get('/faq', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("faq.ejs", { files: files });
+    });
+  });
+
 
   app.get('/ab', (req, res) => {
     gfs.files.find({}).collation({

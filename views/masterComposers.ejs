@@ -1,27 +1,57 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style type="text/css">
-  body {
-      background: transparent url(http://www.mutopiaproject.org/images/bg-darker.jpg) repeat scroll 30% -15%;
-  background-repeat: repeat;
-}
-  </style>
+
 </head>
 <body>
-<% include ../views/partials/nav %>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <% include ../views/partials/nav %>
+
+
+
   <div>
-  <div>
-    <% files.forEach((file) => {%>
+  <div class="col-md-10 col-md-offset-1">
+
+    <table class="table table-striped">
+      <thead>  
+            <tr>  
+                <th>Filename</th>  
+                <th>Size (bytes)</th>  
+            </tr>  
+        </thead> 
+        <tbody>
+             <% files.forEach((file) => {%>
         <% if(file.filename.charAt(0).toLowerCase() == 'a' || file.filename.charAt(0).toLowerCase() == 'b') { console.log(file.filename) %>
- <a href="/file/<%= file._id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= file.filename.replace(/\.[^/.]+$/, "") %></h4>
-      <p class="list-group-item-text"><%= file.id %></p>
+        <tr>
+          <td>
+            <a href="/file/<%= file._id %>" >
+              <%= file.filename.replace(/\.[^/.]+$/, "") %>
+           </a>
+          </td>
+          <td>
+            <h4 ><%= file.length %></h4>
+          </td>
+        </tr>
+          <p class="list-group-item-text"><%= file.id %></p>
+
         <% } %>
    <%  }) %>
-   </a>
+        </tbody>
+    </table>
     </div>
+
+
+
   </div>
+  <div class="col-md-12">
   <footer>
           <div align="center">
           Sheet Music International<br />
@@ -30,6 +60,9 @@
           </div>
          
   </footer>
-  
+  </div>
 </body>
 </html>
+
+
+

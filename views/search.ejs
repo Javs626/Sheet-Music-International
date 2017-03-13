@@ -85,7 +85,8 @@
             <ul> 
     <% files.forEach((file) => {%>
  <a href="/file/<%= file._id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= file.filename.replace(/\.[^/.]+$/, "") %></h4>
+      <h4 class="list-group-item-heading"><%= file.metadata.composerName.replace(/\.[^/.]+$/, "")
++ " - " + file.metadata.compositionType + " " + file.filename %></h4>
       <p class="list-group-item-text"><%= file.id %></p>
    <%  }) %>
     </ul>

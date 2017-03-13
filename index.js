@@ -52,13 +52,29 @@ conn.once("open", function () {
   app.post("/search", function (req, res) {
     var file = req.body.file.toString();
     var searchTerms = file.split(" ");
+    var regex = "";
+    var inst = instrType.getInstrument(file);
+    var compT = compType.getComposition(file);
+    for(var i = 0; i < searchTerms.length;i++){
+        
+   /*   if(regex == ""){
+        regex = searchTerms[i];
+      }
+      regex = regex + "||" + searchTerms[i]*/
+    }
 
     console.log(file);
     console.log(searchTerms);
-    
+    console.log(regex);
     //{ filename: { $regex: /^A/i } }
     
- gfs.files.find({ filename: new RegExp(file, 'i') }).collation({
+ gfs.files.find({ $and: [
+   {filename: new RegExp(regex, 'i')},
+ {"metadata.composerName": new RegExp(regex, 'i')},
+ {"metadata.compositionType": compT},
+ {"metadata.compositionTitle": new RegExp(regex, 'i')},
+ {"metadata.instrumentType": inst}
+ ] }).collation({
     locale: 'en',
     strength: 2
 }).sort({

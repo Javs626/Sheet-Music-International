@@ -57,10 +57,10 @@ conn.once("open", function () {
     var compT = compType.getComposition(file);
     for(var i = 0; i < searchTerms.length;i++){
         
-   /*   if(regex == ""){
-        regex = searchTerms[i];
+      if(regex == ""){
+        regex = "(?=.*" + searchTerms[i]+")"
       }
-      regex = regex + "||" + searchTerms[i]*/
+      regex = regex + "(?=.*" + searchTerms[i]+")"
     }
 
     console.log(file);
@@ -68,13 +68,7 @@ conn.once("open", function () {
     console.log(regex);
     //{ filename: { $regex: /^A/i } }
     
- gfs.files.find({ $and: [
-   {filename: new RegExp(regex, 'i')},
- {"metadata.composerName": new RegExp(regex, 'i')},
- {"metadata.compositionType": compT},
- {"metadata.compositionTitle": new RegExp(regex, 'i')},
- {"metadata.instrumentType": inst}
- ] }).collation({
+ gfs.files.find({ "metadata.filePath": new RegExp(regex, 'i') }).collation({
     locale: 'en',
     strength: 2
 }).sort({
@@ -211,6 +205,11 @@ conn.once("open", function () {
             .split('~').toString()
             .split(',');
 
+            var metadatafullpath = levels.toString() + name;
+            metadatafullpath = metadatafullpath.split(',');
+            metadatafullpath=metadatafullpath.filter(function (metadatafullpath) { return metadatafullpath.trim() != '' });
+            metadatafullpath = metadatafullpath.toString();
+            //console.log("index path: " + metadatafullpath.toLocaleLowerCase());
           levels = levels.filter(function (levels) { return levels.trim() != '' });
 
           var pathRootLevel = ((levels[0] != undefined) ? levels[0].toLowerCase() : '');
@@ -236,6 +235,7 @@ conn.once("open", function () {
               compositionType: typeOfComposition,
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
+              filePath: metadatafullpath,
               approved: true
             }
           });

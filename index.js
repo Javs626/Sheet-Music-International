@@ -87,14 +87,6 @@ conn.once("open", function () {
       res.render("schoolMusic", { files: files });
     });
   });
-<<<<<<< HEAD
-app.get('/faq', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("faq", { files: files });
-    });
-  });
-=======
   app.get('/faq', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
@@ -208,7 +200,6 @@ app.get('/faq', (req, res) => {
   });
 
 
->>>>>>> origin/Sang_Le
   app.get('/ab', (req, res) => {
     gfs.files.find({}).collation({
     locale: 'en',

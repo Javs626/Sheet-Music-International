@@ -38,8 +38,36 @@ conn.once("open", function () {
   //second parameter is multer middleware.
   app.post("/", upload.single("avatar"), function (req, res, next) {
     //create a gridfs-stream into which we pipe multer's temporary file saved in uploads. After which we delete multer's temp file.
+    //todo: research forms with multiple inputs
+    //then take input and run them through the composition and instrument type filter
+    //only if they are empty when they come back (the user did not fill out the form)
+    //then use that data to fill out the file metadata 
+    //test the approved field and after it is verified to work,
+    //then set it to false since admins will have to approve the uploads.
+    /*
+                metadata: {
+              composerType: pathRootLevel,
+              composerName: composerLevel,
+              compositionType: typeOfComposition,
+              compositionTitle: compositionTitle,
+              instrumentType: typeOfInstrument,
+              filePath: metadatafullpath,
+              ipType: "public",
+              approved: true
+            }
+     */
     var writestream = gfs.createWriteStream({
-      filename: req.file.originalname
+      filename: req.file.originalname,
+              metadata: {
+              composerType: "master-composers",
+              composerName: "John Williams",
+              compositionType: "Soundtrack",
+              compositionTitle: "Starwars Theme Song",
+              instrumentType: "trumpet",
+              filePath: "master-composerJohn WilliamsSoundtrackStarwars Theme Songtrumpet",
+              ipType: "private",
+              approved: true
+            }
     });
     //
     // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
@@ -56,7 +84,9 @@ conn.once("open", function () {
     var inst = instrType.getInstrument(file);
     var compT = compType.getComposition(file);
     for(var i = 0; i < searchTerms.length;i++){
-        
+        //todo: There is a bug that makes the first
+        //search term duplicate. Duplicate search terms needs to be removed
+
       if(regex == ""){
         regex = "(?=.*" + searchTerms[i]+")"
       }
@@ -225,6 +255,8 @@ conn.once("open", function () {
           console.log("instrument: " + typeOfInstrument);
           console.log("title: " + compositionTitle);
 */
+//todo: rename file path in metadata,the term is left over from the old system
+// and does not resemble how the system now operates.
           upload.single("avatar");
           var writestream = gfs.createWriteStream({
             filename: name,
@@ -236,6 +268,7 @@ conn.once("open", function () {
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
               filePath: metadatafullpath,
+              ipType: "public",
               approved: true
             }
           });

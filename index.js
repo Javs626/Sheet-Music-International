@@ -21,6 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use( express.static( "public" ) );
 
+//this line is used to add files inside the public folder
+app.use(express.static(__dirname + '/public'));
 conn.once("open", function () {
   console.log("We are up and running!");
   gfs = Grid(conn.db);

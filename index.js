@@ -247,7 +247,7 @@ conn.once("open", function () {
           var typeOfInstrument = instrType.getInstrument(fPath);
           var typeOfComposition = compType.getComposition(fPath);
           var compositionTitle = getCompositionTitle(levels);
-
+//for debugging
 /*
           console.log("composerType: " + pathRootLevel);
           console.log("composerName: " + composerLevel);

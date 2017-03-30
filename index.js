@@ -38,8 +38,36 @@ conn.once("open", function () {
   //second parameter is multer middleware.
   app.post("/", upload.single("avatar"), function (req, res, next) {
     //create a gridfs-stream into which we pipe multer's temporary file saved in uploads. After which we delete multer's temp file.
+    //todo: research forms with multiple inputs
+    //then take input and run them through the composition and instrument type filter
+    //only if they are empty when they come back (the user did not fill out the form)
+    //then use that data to fill out the file metadata 
+    //test the approved field and after it is verified to work,
+    //then set it to false since admins will have to approve the uploads.
+    /*
+                metadata: {
+              composerType: pathRootLevel,
+              composerName: composerLevel,
+              compositionType: typeOfComposition,
+              compositionTitle: compositionTitle,
+              instrumentType: typeOfInstrument,
+              filePath: metadatafullpath,
+              ipType: "public",
+              approved: true
+            }
+     */
     var writestream = gfs.createWriteStream({
-      filename: req.file.originalname
+      filename: req.file.originalname,
+              metadata: {
+              composerType: "master-composers",
+              composerName: "John Williams",
+              compositionType: "Soundtrack",
+              compositionTitle: "Starwars Theme Song",
+              instrumentType: "trumpet",
+              filePath: "master-composerJohn WilliamsSoundtrackStarwars Theme Songtrumpet",
+              ipType: "private",
+              approved: true
+            }
     });
     //
     // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
@@ -56,11 +84,13 @@ conn.once("open", function () {
     var inst = instrType.getInstrument(file);
     var compT = compType.getComposition(file);
     for(var i = 0; i < searchTerms.length;i++){
-        
-   /*   if(regex == ""){
-        regex = searchTerms[i];
+        //todo: There is a bug that makes the first
+        //search term duplicate. Duplicate search terms needs to be removed
+
+      if(regex == ""){
+        regex = "(?=.*" + searchTerms[i]+")"
       }
-      regex = regex + "||" + searchTerms[i]*/
+      regex = regex + "(?=.*" + searchTerms[i]+")"
     }
 
     console.log(file);
@@ -68,13 +98,7 @@ conn.once("open", function () {
     console.log(regex);
     //{ filename: { $regex: /^A/i } }
     
- gfs.files.find({ $and: [
-   {filename: new RegExp(regex, 'i')},
- {"metadata.composerName": new RegExp(regex, 'i')},
- {"metadata.compositionType": compT},
- {"metadata.compositionTitle": new RegExp(regex, 'i')},
- {"metadata.instrumentType": inst}
- ] }).collation({
+ gfs.files.find({ "metadata.filePath": new RegExp(regex, 'i') }).collation({
     locale: 'en',
     strength: 2
 }).sort({
@@ -211,6 +235,11 @@ conn.once("open", function () {
             .split('~').toString()
             .split(',');
 
+            var metadatafullpath = levels.toString() + name;
+            metadatafullpath = metadatafullpath.split(',');
+            metadatafullpath=metadatafullpath.filter(function (metadatafullpath) { return metadatafullpath.trim() != '' });
+            metadatafullpath = metadatafullpath.toString();
+            //console.log("index path: " + metadatafullpath.toLocaleLowerCase());
           levels = levels.filter(function (levels) { return levels.trim() != '' });
 
           var pathRootLevel = ((levels[0] != undefined) ? levels[0].toLowerCase() : '');
@@ -218,7 +247,7 @@ conn.once("open", function () {
           var typeOfInstrument = instrType.getInstrument(fPath);
           var typeOfComposition = compType.getComposition(fPath);
           var compositionTitle = getCompositionTitle(levels);
-
+//for debugging
 /*
           console.log("composerType: " + pathRootLevel);
           console.log("composerName: " + composerLevel);
@@ -226,6 +255,8 @@ conn.once("open", function () {
           console.log("instrument: " + typeOfInstrument);
           console.log("title: " + compositionTitle);
 */
+//todo: rename file path in metadata,the term is left over from the old system
+// and does not resemble how the system now operates.
           upload.single("avatar");
           var writestream = gfs.createWriteStream({
             filename: name,
@@ -236,6 +267,8 @@ conn.once("open", function () {
               compositionType: typeOfComposition,
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
+              filePath: metadatafullpath,
+              ipType: "public",
               approved: true
             }
           });

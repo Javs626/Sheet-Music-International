@@ -24,6 +24,11 @@ Grid.mongo = mongoose.mongo;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use( express.static( "public" ) );
+
+
+//this line is used to add files inside the public folder
+app.use(express.static(__dirname + '/public'));
 
 conn.once("open", function () {
   console.log("We are up and running! localhost 3000");
@@ -124,7 +129,116 @@ conn.once("open", function () {
     });
   });
 
-  app.get('/alphabetical/ab', (req, res) => {
+  app.get('/faq', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("faq.ejs", { files: files });
+    });
+  });
+  app.get('/repertoire-instrumental', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("repertoire-instrumental.ejs", { files: files });
+    });
+  });
+  //repertoire
+
+  app.get('/trombone', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/trombone.ejs', { files: files });
+
+    });
+  });
+  app.get('/violin', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/violin.ejs', { files: files });
+
+    });
+  });
+  app.get('/viola', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/viola.ejs', { files: files });
+
+    });
+  });
+  app.get('/cello', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/cello.ejs', { files: files });
+
+    });
+  });
+  app.get('/bass', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/bass.ejs', { files: files });
+
+    });
+  });
+  app.get('/Flute', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/Flute.ejs', { files: files });
+
+    });
+  });
+  app.get('/Clarinet', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/Clarinet.ejs', { files: files });
+
+    });
+  });
+  app.get('/Oboe-English-Horn', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/Oboe-English-Horn.ejs', { files: files });
+
+    });
+  });
+  app.get('/bassoon', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/bassoon.ejs', { files: files });
+
+    });
+  });
+  app.get('/Saxophone', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/Saxophone.ejs', { files: files });
+
+    });
+  });
+  app.get('/trumpet', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/trumpet.ejs', { files: files });
+
+    });
+  });
+  app.get('/tuba', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/tuba.ejs', { files: files });
+
+    });
+  });
+  app.get('/piano', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/piano.ejs', { files: files });
+    });
+  });
+  //end repertoire
+
+
+
+
+  app.get('/ab', (req, res) => {
     gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
@@ -132,11 +246,11 @@ conn.once("open", function () {
     filename: 1
 }).toArray((err, files) => {
       if (err) return res.status(500).send(err);
-      res.render("masterComposers.ejs", { files: files });
+      res.render("alphabeticalAB.ejs", { files: files });
     });
   });
 
-   app.get('/alphabetical/ce', (req, res) => {
+   app.get('/ce', (req, res) => {
     gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
@@ -148,7 +262,7 @@ conn.once("open", function () {
     });
   });
 
-     app.get('/alphabetical/fh', (req, res) => {
+     app.get('/fh', (req, res) => {
     gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
@@ -160,7 +274,7 @@ conn.once("open", function () {
     });
   });
 
-       app.get('/alphabetical/in', (req, res) => {
+       app.get('/in', (req, res) => {
     gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
@@ -172,7 +286,7 @@ conn.once("open", function () {
     });
   });
 
-       app.get('/alphabetical/or', (req, res) => {
+       app.get('/or', (req, res) => {
     gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2
@@ -184,7 +298,7 @@ conn.once("open", function () {
     });
   });
 
-      app.get('/alphabetical/sz', (req, res) => {
+      app.get('/sz', (req, res) => {
     gfs.files.find({"metadata.composerType": "master-composers"}).collation({
     locale: 'en',
     strength: 2

@@ -8,11 +8,16 @@ var upload = multer({ dest: "./uploads" });
 var http = require('http');
 
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/");
+var uri = "mongodb://127.0.0.1/";
+var options = { server: { socketOptions: { connectTimeoutMS: 10000 }}};
+mongoose.connect(uri,options);
 var conn = mongoose.connection;
 
 var sheetMusicFile;
 var gfs;
+var compType = require('./modules/compositionTypes.js');
+var instrType = require('./modules/instrumentTypes.js');
+
 
 var Grid = require("gridfs-stream");
 Grid.mongo = mongoose.mongo;
@@ -24,7 +29,7 @@ app.use( express.static( "public" ) );
 //this line is used to add files inside the public folder
 app.use(express.static(__dirname + '/public'));
 conn.once("open", function () {
-  console.log("We are up and running!");
+  console.log("We are up and running! localhost 3000");
   gfs = Grid(conn.db);
   sheetMusicFile = gfs.files;
   app.get("/", function (req, res) {
@@ -36,8 +41,36 @@ conn.once("open", function () {
   //second parameter is multer middleware.
   app.post("/", upload.single("avatar"), function (req, res, next) {
     //create a gridfs-stream into which we pipe multer's temporary file saved in uploads. After which we delete multer's temp file.
+    //todo: research forms with multiple inputs
+    //then take input and run them through the composition and instrument type filter
+    //only if they are empty when they come back (the user did not fill out the form)
+    //then use that data to fill out the file metadata 
+    //test the approved field and after it is verified to work,
+    //then set it to false since admins will have to approve the uploads.
+    /*
+                metadata: {
+              composerType: pathRootLevel,
+              composerName: composerLevel,
+              compositionType: typeOfComposition,
+              compositionTitle: compositionTitle,
+              instrumentType: typeOfInstrument,
+              filePath: metadatafullpath,
+              ipType: "public",
+              approved: true
+            }
+     */
     var writestream = gfs.createWriteStream({
-      filename: req.file.originalname
+      filename: req.file.originalname,
+              metadata: {
+              composerType: "master-composers",
+              composerName: "John Williams",
+              compositionType: "Soundtrack",
+              compositionTitle: "Starwars Theme Song",
+              instrumentType: "trumpet",
+              filePath: "master-composerJohn WilliamsSoundtrackStarwars Theme Songtrumpet",
+              ipType: "private",
+              approved: true
+            }
     });
     //
     // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
@@ -50,6 +83,7 @@ conn.once("open", function () {
   app.post("/search", function (req, res) {
     var file = req.body.file.toString();
     var searchTerms = file.split(" ");
+<<<<<<< HEAD
 
     console.log(file);
     console.log(searchTerms);
@@ -57,6 +91,27 @@ conn.once("open", function () {
     //{ filename: { $regex: /^A/i } }
     
  gfs.files.find({ filename: new RegExp(file, 'i') }).collation({
+=======
+    var regex = "";
+    var inst = instrType.getInstrument(file);
+    var compT = compType.getComposition(file);
+    for(var i = 0; i < searchTerms.length;i++){
+        //todo: There is a bug that makes the first
+        //search term duplicate. Duplicate search terms needs to be removed
+
+      if(regex == ""){
+        regex = "(?=.*" + searchTerms[i]+")"
+      }
+      regex = regex + "(?=.*" + searchTerms[i]+")"
+    }
+
+    console.log(file);
+    console.log(searchTerms);
+    console.log(regex);
+    //{ filename: { $regex: /^A/i } }
+    
+ gfs.files.find({ "metadata.filePath": new RegExp(regex, 'i') }).collation({
+>>>>>>> master
     locale: 'en',
     strength: 2
 }).sort({
@@ -191,10 +246,20 @@ conn.once("open", function () {
       if (err) return res.status(500).send(err);
       res.render(__dirname + '/views/repertoire/piano.ejs', { files: files });
 
+<<<<<<< HEAD
     });
   });
   app.get('/Organ', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
+=======
+  app.get('/alphabetical/ab', (req, res) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
+    locale: 'en',
+    strength: 2
+}).sort({
+    filename: 1
+}).toArray((err, files) => {
+>>>>>>> master
       if (err) return res.status(500).send(err);
       res.render(__dirname + '/views/repertoire/Organ.ejs', { files: files });
 
@@ -214,8 +279,13 @@ conn.once("open", function () {
     });
   });
 
+<<<<<<< HEAD
    app.get('/ce', (req, res) => {
     gfs.files.find({}).collation({
+=======
+   app.get('/alphabetical/ce', (req, res) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
+>>>>>>> master
     locale: 'en',
     strength: 2
 }).sort({
@@ -226,8 +296,13 @@ conn.once("open", function () {
     });
   });
 
+<<<<<<< HEAD
      app.get('/fh', (req, res) => {
     gfs.files.find({}).collation({
+=======
+     app.get('/alphabetical/fh', (req, res) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
+>>>>>>> master
     locale: 'en',
     strength: 2
 }).sort({
@@ -238,20 +313,34 @@ conn.once("open", function () {
     });
   });
 
+<<<<<<< HEAD
        app.get('/in', (req, res) => {
     gfs.files.find({}).collation({
+=======
+       app.get('/alphabetical/in', (req, res) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
+>>>>>>> master
     locale: 'en',
     strength: 2
 }).sort({
     filename: 1
 }).toArray((err, files) => {
       if (err) return res.status(500).send(err);
+<<<<<<< HEAD
       res.render("alphabeticalIN.ejs", { files: files });
     });
   });
 
        app.get('/or', (req, res) => {
     gfs.files.find({}).collation({
+=======
+      res.render("alphabeticalIN.ejs", { files:files });
+    });
+  });
+
+       app.get('/alphabetical/or', (req, res) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
+>>>>>>> master
     locale: 'en',
     strength: 2
 }).sort({
@@ -262,8 +351,13 @@ conn.once("open", function () {
     });
   });
 
+<<<<<<< HEAD
       app.get('/sz', (req, res) => {
     gfs.files.find({}).collation({
+=======
+      app.get('/alphabetical/sz', (req, res) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
+>>>>>>> master
     locale: 'en',
     strength: 2
 }).sort({
@@ -277,7 +371,7 @@ conn.once("open", function () {
   app.post("/pop", function (req, res) {
 
     "use strict";
-
+      res.render("home");
     var walk = require('walk')
       , fs = require('fs')
       , walker
@@ -291,19 +385,73 @@ conn.once("open", function () {
         var name = fileStats.name;
         var path = root + "\\"; // path without file name
         var fPath = path + name; // path with file name
-        console.log(fPath);
-        upload.single("avatar");
-        var writestream = gfs.createWriteStream({
-          filename: name
-        });
-        //
-        // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
-        fs.createReadStream(fPath)
-          .on("end", function () { })
-          .on("err", function () { console.log(success) })
-          .pipe(writestream);
-        next();// go to the next file in the tree
 
+        console.log(fPath);
+        // We need to check if the file is a pdf, it is not a pdf, skip
+        var fileType = name.split('.');
+        fileType = fileType[1].toLowerCase();
+        //console.log(fileType[1].toLowerCase());
+
+        if (fileType == "pdf") {
+
+          //  console.log("file type pdf confirmed");
+
+          // make sure we get a newly initialized levels variable each time (we might not need this)
+          var levels = '';
+          //splits the path string by the characters specified below and then returns levels as an array of strings
+          levels = path
+            .split('.').toString()
+            .split("/").toString()
+            .split("\\").toString()
+            .split('+').toString()// we can leverage these characters in search
+            .split('~').toString()
+            .split(',');
+
+            var metadatafullpath = levels.toString() + name;
+            metadatafullpath = metadatafullpath.split(',');
+            metadatafullpath=metadatafullpath.filter(function (metadatafullpath) { return metadatafullpath.trim() != '' });
+            metadatafullpath = metadatafullpath.toString();
+            //console.log("index path: " + metadatafullpath.toLocaleLowerCase());
+          levels = levels.filter(function (levels) { return levels.trim() != '' });
+
+          var pathRootLevel = ((levels[0] != undefined) ? levels[0].toLowerCase() : '');
+          var composerLevel = ((levels[1] != undefined) ? levels[1].toLowerCase() : '');
+          var typeOfInstrument = instrType.getInstrument(fPath);
+          var typeOfComposition = compType.getComposition(fPath);
+          var compositionTitle = getCompositionTitle(levels);
+//for debugging
+/*
+          console.log("composerType: " + pathRootLevel);
+          console.log("composerName: " + composerLevel);
+          console.log("composition: " + typeOfComposition);
+          console.log("instrument: " + typeOfInstrument);
+          console.log("title: " + compositionTitle);
+*/
+//todo: rename file path in metadata,the term is left over from the old system
+// and does not resemble how the system now operates.
+          upload.single("avatar");
+          var writestream = gfs.createWriteStream({
+            filename: name,
+
+            metadata: {
+              composerType: pathRootLevel,
+              composerName: composerLevel,
+              compositionType: typeOfComposition,
+              compositionTitle: compositionTitle,
+              instrumentType: typeOfInstrument,
+              filePath: metadatafullpath,
+              ipType: "public",
+              approved: true
+            }
+          });
+          //
+          // //pipe multer's temp file /uploads/filename into the stream we created above. On end deletes the temporary file.
+          fs.createReadStream(fPath)
+            .on("end", function () { })
+            .on("err", function () { console.log('success') })
+            .pipe(writestream);
+        }
+        next();// go to the next file in the tree
       });
     });
 
@@ -316,6 +464,37 @@ conn.once("open", function () {
     });
   });
 
+  var getMetadataType = function (data) {
+    for (var i = 0; i < pieceType.length; i++) {
+      if (data.toLowerCase() == pieceType[i].toLowerCase()) {
+        return "pieceType";
+      }
+    }
+    for (var i = 0; i < instrumentType.length; i++) {
+      if (data.toLowerCase() == instrumentType[i].toLowerCase()) {
+        return "pieceInstrumentLevel";
+      }
+    }
+  }
+
+  var makeUnique = function(array){
+	array.sort();
+	var re=[array[0]];
+	for(var i = 1; i < array.length; i++)
+	{
+		if( array[i] !== re[re.length-1])
+		{
+			re.push(array[i]); 
+		}
+	}
+	return re;
+  }
+
+  Array.prototype.unique = function() {
+  return this.filter(function (value, index, self) { 
+    return self.indexOf(value) === index;
+  });
+}
 
   app.get("/file/:id", function (req, res) {
 
@@ -342,8 +521,34 @@ conn.once("open", function () {
     });
   });
 
+<<<<<<< HEAD
 
 
+=======
+  var getCompositionTitle = function (composition) {
+    for (var i = composition.length - 1; i > 1; i--) {
+      if (instrType.getInstrument(composition[i]) == "" && compType.getComposition(composition[i]) == "") {
+        return composition[i];
+      }
+    }
+    return "";
+  }
+  //delete the image
+  /*
+  app.get("/delete/:filename", function(req, res){
+    gfs.exist({filename: req.params.filename}, function(err, found){
+      if(err) return res.send("Error occured");
+      if(found){
+        gfs.remove({filename: req.params.filename}, function(err){
+          if(err) return res.send("Error occured");
+          res.send("Image deleted!");
+        });
+      } else{
+        res.send("No image found with that title");
+      }
+    });
+  });*/
+>>>>>>> master
 });
 
 app.set("view engine", "ejs");
@@ -352,4 +557,6 @@ app.set('views', path.join(__dirname, 'views'));
 if (!module.parent) {
   app.listen(3000);
 }
+
+
 

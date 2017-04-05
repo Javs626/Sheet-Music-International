@@ -118,7 +118,7 @@ conn.once("open", function () {
       filename: 1
     }).toArray((err, files) => {
       if (err) return res.status(500).send(err)
-      res.render('search', { files: files })
+      res.render('search', { files: files, query:file})
     })
   })
 

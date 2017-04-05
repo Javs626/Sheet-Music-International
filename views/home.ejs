@@ -17,73 +17,6 @@
 <body id="page-top">
 <% include ../views/partials/nav %>
 
-<!--Well-->
-<!--
-<table width="72%" style="margin-left: 14%"><tr>
-  <td style=" background-color: #C0C0C0; border:3px solid black; height: 104px; width: 90%" class="form-inline">
-    <span style="width: 75%">
-        <form action="/search" method="POST" >
-        <select name="ipTypeList">
-        <option value="public">Public Music</option>
-        <option value="all">All Music</option>
-        </select>
-			    <input type="text" name="file">
-			    <input type="submit" value="submit">
-			  </form>          
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Home</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Major Composere</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">  Repertoire </span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">School Music</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">FAQ</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Log In</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Upload Music</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Donate</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-    </span>
-    </span>
-    <div class="col-md-12"><b><font size="4" face=" ITC">Other Composers Director &nbsp;&nbsp; 
-      <a href="A-B/">A-B</a>,&nbsp;
-      <a href="C-E/">C-E</a>,&nbsp;
-      <a href="F-H/">F-H</a>,&nbsp;
-      <a href="I-N/">I-N</a>,&nbsp;
-      <a href="O-R/">O-R</a>,&nbsp;
-      <a href="S-Z/">S-Z</a>&nbsp;&nbsp;&nbsp;</font></b><b><font
-      size="4" face=" ITC"></font></b>
-    </div>                        
-</td></tr>
-</table> -->
-<!--End Well-->
   <br />
 <table style="margin-left: 5px">
   <tr>
@@ -122,11 +55,11 @@
           <input type="file" name="avatar">
           <input type="submit" value="submit">
         </form>
+         <form action="/scan" method="POST">
+          <input type="submit" value="SCAN">
+        </form>
         <form action="/pop" method="POST">
           <input type="submit" value="POPULATE">
-        </form>
-                <form action="/scan" method="POST">
-          <input type="submit" value="SCAN">
         </form>
       </div>  
       <br />

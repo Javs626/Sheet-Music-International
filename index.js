@@ -327,7 +327,7 @@ conn.once("open", function () {
       , walker
       , options
       ;
-
+      var uploadCount = 0;
     walker = walk.walk('./master-composers');
 
     walker.on("file", function (root, fileStats, next) {
@@ -336,6 +336,10 @@ conn.once("open", function () {
         var path = root + '\\' // path without file name
         var fPath = path + name // path with file name
         uploadCount++;
+        var shmType = "public";
+        if(uploadCount > 1000){
+            shmType = "private";
+        }
         //console.log("blue");
         progress.calculateProgressPercentage(uploadCount);
         //console.log(fPath)
@@ -393,7 +397,7 @@ conn.once("open", function () {
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
               filePath: metadatafullpath,
-              ipType: 'private',
+              ipType: shmType,
               approved: true
             }
           })

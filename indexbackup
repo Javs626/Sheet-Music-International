@@ -18,36 +18,31 @@ var gfs
 var compType = require('./modules/compositionTypes.js');
 var instrType = require('./modules/instrumentTypes.js');
 var progress = require('./modules/progressCounter.js');
-var Grid = require("gridfs-stream");
-Grid.mongo = mongoose.mongo;
+var Grid = require('gridfs-stream')
+Grid.mongo = mongoose.mongo
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use( express.static( "public" ) );
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
+conn.once('open', function () {
+  console.log('We are up and running! localhost 3000')
+  gfs = Grid(conn.db)
+  sheetMusicFile = gfs.files
+  app.get('/', function (req, res) {
+    // renders a multipart/form-data form
 
-//this line is used to add files inside the public folder
-app.use(express.static(__dirname + '/public'));
+    res.render('home')
+  })
 
-conn.once("open", function () {
-  console.log("We are up and running! localhost 3000");
-  gfs = Grid(conn.db);
-  sheetMusicFile = gfs.files;
-  app.get("/", function (req, res) {
-    //renders a multipart/form-data form
-
-    res.render("home");
-  });
-
-  //second parameter is multer middleware.
-  app.post("/", upload.single("avatar"), function (req, res, next) {
-    //create a gridfs-stream into which we pipe multer's temporary file saved in uploads. After which we delete multer's temp file.
-    //todo: research forms with multiple inputs
-    //then take input and run them through the composition and instrument type filter
-    //only if they are empty when they come back (the user did not fill out the form)
-    //then use that data to fill out the file metadata 
-    //test the approved field and after it is verified to work,
-    //then set it to false since admins will have to approve the uploads.
+  // second parameter is multer middleware.
+  app.post('/', upload.single('avatar'), function (req, res, next) {
+    // create a gridfs-stream into which we pipe multer's temporary file saved in uploads. After which we delete multer's temp file.
+    // todo: research forms with multiple inputs
+    // then take input and run them through the composition and instrument type filter
+    // only if they are empty when they come back (the user did not fill out the form)
+    // then use that data to fill out the file metadata 
+    // test the approved field and after it is verified to work,
+    // then set it to false since admins will have to approve the uploads.
     /*
                 metadata: {
               composerType: pathRootLevel,
@@ -118,7 +113,7 @@ conn.once("open", function () {
       filename: 1
     }).toArray((err, files) => {
       if (err) return res.status(500).send(err)
-      res.render('search', { files: files, query:file})
+      res.render('search', { files: files })
     })
   })
 
@@ -137,213 +132,111 @@ conn.once("open", function () {
     })
   })
 
-  app.get('/faq', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("faq.ejs", { files: files });
-    });
-  });
-  app.get('/repertoire-instrumental', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("repertoire-instrumental.ejs", { files: files });
-    });
-  });
-  //repertoire
+  app.get('/alphabetical/ab', (req, res) => {
+    gfs.files.find({ 'metadata.composerType': 'master-composers' }).collation({
+      locale: 'en',
+      strength: 2
+    }).sort({
+      filename: 1
+    }).toArray((err, files) => {
+      if (err) return res.status(500).send(err)
+      res.render('masterComposers.ejs', { files: files })
+    })
+  })
 
-  app.get('/trombone', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/trombone.ejs', { files: files });
+  app.get('/alphabetical/ce', (req, res) => {
+    gfs.files.find({ 'metadata.composerType': 'master-composers' }).collation({
+      locale: 'en',
+      strength: 2
+    }).sort({
+      filename: 1
+    }).toArray((err, files) => {
+      if (err) return res.status(500).send(err)
+      res.render('alphabeticalCE.ejs', { files: files })
+    })
+  })
 
-    });
-  });
-  app.get('/violin', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/violin.ejs', { files: files });
+  app.get('/alphabetical/fh', (req, res) => {
+    gfs.files.find({ 'metadata.composerType': 'master-composers' }).collation({
+      locale: 'en',
+      strength: 2
+    }).sort({
+      filename: 1
+    }).toArray((err, files) => {
+      if (err) return res.status(500).send(err)
+      res.render('alphabeticalFH.ejs', { files: files })
+    })
+  })
 
-    });
-  });
-  app.get('/viola', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/viola.ejs', { files: files });
+  app.get('/alphabetical/in', (req, res) => {
+    gfs.files.find({ 'metadata.composerType': 'master-composers' }).collation({
+      locale: 'en',
+      strength: 2
+    }).sort({
+      filename: 1
+    }).toArray((err, files) => {
+      if (err) return res.status(500).send(err)
+      res.render('alphabeticalIN.ejs', { files: files })
+    })
+  })
 
-    });
-  });
-  app.get('/cello', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/cello.ejs', { files: files });
+  app.get('/alphabetical/or', (req, res) => {
+    gfs.files.find({ 'metadata.composerType': 'master-composers' }).collation({
+      locale: 'en',
+      strength: 2
+    }).sort({
+      filename: 1
+    }).toArray((err, files) => {
+      if (err) return res.status(500).send(err)
+      res.render('alphabeticalOR.ejs', { files: files })
+    })
+  })
 
-    });
-  });
-  app.get('/bass', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/bass.ejs', { files: files });
+  app.get('/alphabetical/sz', (req, res) => {
+    gfs.files.find({ 'metadata.composerType': 'master-composers' }).collation({
+      locale: 'en',
+      strength: 2
+    }).sort({
+      filename: 1
+    }).toArray((err, files) => {
+      if (err) return res.status(500).send(err)
+      res.render('alphabeticalSZ.ejs', { files: files })
+    })
+  })
 
-    });
-  });
-  app.get('/Flute', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/Flute.ejs', { files: files });
-
-    });
-  });
-  app.get('/Clarinet', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/Clarinet.ejs', { files: files });
-
-    });
-  });
-  app.get('/Oboe-English-Horn', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/Oboe-English-Horn.ejs', { files: files });
-
-    });
-  });
-  app.get('/bassoon', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/bassoon.ejs', { files: files });
-
-    });
-  });
-  app.get('/Saxophone', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/Saxophone.ejs', { files: files });
-
-    });
-  });
-  app.get('/trumpet', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/trumpet.ejs', { files: files });
-
-    });
-  });
-  app.get('/tuba', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/tuba.ejs', { files: files });
-
-    });
-  });
-  app.get('/piano', (req, res) => {
-    gfs.files.find({}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/piano.ejs', { files: files });
-    });
-  });
-  //end repertoire
+  app.post('/pop', function (req, res) {
+    'use strict'
+    res.render('home')
+    var walk = require('walk'),
+      fs = require('fs'),
+      walker,
+      options
 
 
+    walker = walk.walkSync('./master-composers')
 
+    console.log("Calculating number of files...");
+    var uploadCount = 0;
 
-  app.get('/ab', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("alphabeticalAB.ejs", { files: files });
-    });
-  });
+    walker.on('file', function (root, fileStats, next) {
+      fs.readFile(fileStats.name, function () {
+        console.log("blue");
+        //progress.fileCount++;
+        //progress.printFileCount();
+        next() // go to the next file in the tree
+      })
+    })
 
-   app.get('/ce', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("alphabeticalCE.ejs", { files: files });
-    });
-  });
-
-     app.get('/fh', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("alphabeticalFH.ejs", { files: files });
-    });
-  });
-
-       app.get('/in', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("alphabeticalIN.ejs", { files:files });
-    });
-  });
-
-       app.get('/or', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("alphabeticalOR.ejs", { files: files });
-    });
-  });
-
-      app.get('/sz', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
-      if (err) return res.status(500).send(err);
-      res.render("alphabeticalSZ.ejs", { files: files });
-    });
-  });
-
-  app.post("/pop", function (req, res) {
-
-    "use strict";
-      res.render("home");
-    var walk = require('walk')
-      , fs = require('fs')
-      , walker
-      , options
-      ;
-      var uploadCount = 0;
-    walker = walk.walk('./master-composers');
-
-    walker.on("file", function (root, fileStats, next) {
+    walker.on('file', function (root, fileStats, next) {
       fs.readFile(fileStats.name, function () {
         var name = fileStats.name
         var path = root + '\\' // path without file name
         var fPath = path + name // path with file name
         uploadCount++;
-        var shmType = "public";
-        if(uploadCount > 1000){
-            shmType = "private";
-        }
-        //console.log("blue");
-        progress.calculateProgressPercentage(uploadCount);
+        console.log("green");
+        //progress.calculateProgressPercentage(uploadCount);
         //console.log(fPath)
-        
+        /*
         // We need to check if the file is a pdf, it is not a pdf, skip
         var fileType = name.split('.')
         fileType = fileType[1].toLowerCase()
@@ -378,11 +271,11 @@ conn.once("open", function () {
           var compositionTitle = getCompositionTitle(levels)
           // for debugging
           
-                    //console.log("composerType: " + pathRootLevel)
-                    //console.log("composerName: " + composerLevel)
-                    //console.log("composition: " + typeOfComposition)
-                    //console.log("instrument: " + typeOfInstrument)
-                    //console.log("title: " + compositionTitle)
+                    console.log("composerType: " + pathRootLevel)
+                    console.log("composerName: " + composerLevel)
+                    console.log("composition: " + typeOfComposition)
+                    console.log("instrument: " + typeOfInstrument)
+                    console.log("title: " + compositionTitle)
           
           // todo: rename file path in metadata,the term is left over from the old system
           // and does not resemble how the system now operates.
@@ -397,7 +290,7 @@ conn.once("open", function () {
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
               filePath: metadatafullpath,
-              ipType: shmType,
+              ipType: 'private',
               approved: true
             }
           })
@@ -407,53 +300,18 @@ conn.once("open", function () {
             .on('end', function () { })
             .on('err', function () { console.log('success') })
             .pipe(writestream)
-        }
+        }*/
         next() // go to the next file in the tree
       })
     })
 
-        walker.on('end', function () {
-      console.log('File upload complete')
-    })
-
     walker.on('errors', function (root, nodeStatsArray, next) {
       next()
     })
 
-
-    
-  })
-
-  app.post('/scan', function (req, res) {
-        res.render('home');
-
-  
-    'use strict'
-
-    var walk = require('walk'),
-      fs = require('fs'),
-      walker,
-      options
-
-
-    walker = walk.walk('./master-composers')
-
-      progress.fileCount = 0;
-      progress.init();
-    walker.on('file', function (root, fileStats, next) {
-      fs.readFile(fileStats.name, function () {
-        progress.fileCount++;
-        progress.printFileCount();
-        next() 
-      })
+    walker.on('end', function () {
+      console.log('all done')
     })
-        walker.on('end', function () {
-      console.log(' Done scanning')
-    })
-
-    walker.on('errors', function (root, nodeStatsArray, next) {
-      next()
-    })    
   })
 
   var getMetadataType = function (data) {
@@ -467,6 +325,23 @@ conn.once("open", function () {
         return 'pieceInstrumentLevel'
       }
     }
+  }
+
+  var makeUnique = function (array) {
+    array.sort()
+    var re = [array[0]]
+    for (var i = 1; i < array.length; i++) {
+      if (array[i] !== re[re.length - 1]) {
+        re.push(array[i])
+      }
+    }
+    return re
+  }
+
+  Array.prototype.unique = function () {
+    return this.filter(function (value, index, self) {
+      return self.indexOf(value) === index
+    })
   }
 
   app.get('/file/:id', function (req, res) {

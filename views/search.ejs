@@ -14,28 +14,10 @@
   <body style="text-align: center;">
           <% include ../views/partials/nav %>
 
-<<<<<<< HEAD
             <ul>
     <% files.forEach((file) => {%>
  <a href="/file/<%= file._id %>" class="list-group-item">
       <h4 class="list-group-item-heading"><%= file.filename %></h4></a>
-=======
-        <tr>
-          <td valign="top">Sheet Music International<br>
-            Copyright 2016 all rights reserved<br>
-            Website Managed by Carl Reiter<br>
-          </td>
-          <td valign="top"><br> 
-          </td>
-        </tr>
-      </tbody>
-    </table>
-            <ul> 
-    <% files.forEach((file) => {%>
- <a href="/file/<%= file._id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= file.metadata.composerName.replace(/\.[^/.]+$/, "")
-+ " - " + file.metadata.compositionType + " " + file.filename %></h4>
->>>>>>> master
       <p class="list-group-item-text"><%= file.id %></p>
    <%  }) %>
     </ul>

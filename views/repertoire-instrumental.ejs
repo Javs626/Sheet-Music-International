@@ -13,77 +13,13 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
 </head>
 <body id="page-top">
-<% include ../views/partials/nav %>
 
 <!--Well-->
-<!--
-<table width="72%" style="margin-left: 14%"><tr>
-  <td style=" background-color: #C0C0C0; border:3px solid black; height: 104px; width: 90%" class="form-inline">
-    <span style="width: 75%">
-        <form action="/search" method="POST" >
-        <select name="ipTypeList">
-        <option value="public">Public Music</option>
-        <option value="all">All Music</option>
-        </select>
-			    <input type="text" name="file">
-			    <input type="submit" value="submit">
-			  </form>          
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Home</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Major Composere</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">  Repertoire </span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">School Music</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">FAQ</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Log In</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Upload Music</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-      <b> <font size="4" face=" ITC"> 
-            <a href="index.html">Donate</span></a>
-            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
-          </font>
-      </b>
-    </span>
-    </span>
-    <div class="col-md-12"><b><font size="4" face=" ITC">Other Composers Director &nbsp;&nbsp; 
-      <a href="A-B/">A-B</a>,&nbsp;
-      <a href="C-E/">C-E</a>,&nbsp;
-      <a href="F-H/">F-H</a>,&nbsp;
-      <a href="I-N/">I-N</a>,&nbsp;
-      <a href="O-R/">O-R</a>,&nbsp;
-      <a href="S-Z/">S-Z</a>&nbsp;&nbsp;&nbsp;</font></b><b><font
-      size="4" face=" ITC"></font></b>
-    </div>                        
-</td></tr>
-</table> -->
-<!--End Well-->
+<% include ../views/partials/nav %>
+
   <br />
 <table style="margin-left: 5px">
   <tr>
@@ -118,15 +54,9 @@
         <font style="font-size: 18px; font-family: courier">&#9675; <a href="#" style="font-size: 19px; font-family: times">Create Add</a></font><br />
         <font style="font-size: 18px; font-family: courier">&#9675; <a href="#" style="font-size: 19px; font-family: times">Upload Music(Public)</a></font><br />
         <font style="font-size: 18px; font-family: courier">&#9675; <a href="#" style="font-size: 19px; font-family: times">Report violation CR</a></font><br />
-        <form action="/" method="POST" enctype="multipart/form-data">
+         <form action="/" method="POST" enctype="multipart/form-data">
           <input type="file" name="avatar">
           <input type="submit" value="submit">
-        </form>
-        <form action="/pop" method="POST">
-          <input type="submit" value="POPULATE">
-        </form>
-                <form action="/scan" method="POST">
-          <input type="submit" value="SCAN">
         </form>
       </div>  
       <br />
@@ -141,6 +71,7 @@
         <font style="font-size: 18px; font-family: courier">&#9675; <a href="#" style="font-size: 19px; font-family: times">Download Library</a></font><br />
       </div>
     <!--End third row-->
+
     <!--Begin fourth right-side bar-->
     <font face="Times New Roman" style=" font-size: 21px; padding-left: 5px"><b> Music for Sale or Rent: </b></font>    
       <br />        
@@ -152,49 +83,113 @@
       </div>
     <!--End fourth row-->
     
+    <!--body begin here-->
     </td>
-    <td width="80%" style="text-align: center;" valign="top">
-        <font size="+2" style="font-family: times"><b>Public Domain and Copyrighted music</b></font><br />
-        <font size="+2" style="font-family: times"><b> Upload and sell your Arrangements, and receive 100% of sale price.</b></font>
-        <br />
-        <br />
-<p class="DefaultText" style="margin-left:0.1in; margin-right:0.1in; margin-top:0in; font-size: 16px; font-family: times"  align="left">
-  <big>
-    <big>Site administrators believe music on this website is in public domain or has been uploaded by owner of copyright for distribution.&nbsp;
-    </big>
-  </big>
-</p>
-<p class="DefaultText" style="margin-left:0.1in; font-size: 16px; font-family: times; margin-right:0.1in; margin-bottom:0.0001pt" align="left">
-  <big>
-    <big> This site is monitored and music found to infringe copyright will be removed.&nbsp; Sheet music
-      International is a public repository that serves as a collection agency only.&nbsp; 
-      <font color="#cc0000"><br></font>
-    </big>
-  </big>
-</p>
+    <td width="80%" valign="top">
+    <div align="center">
+        <font size="+2" style="text-align: center;"><b>Instrumental Repertoire Lists</b></font><br />
+            <h4>Repertoire Lists for Instruments:</h4>
 
-<p class="DefaultText" style="margin-left:0.1in; margin-right:0.1in; margin-top:0in; margin-bottom:0.0001pt; font-family: times; font-size: 16px" align="left">
-  <big>
-    <big><font color="#cc0000">  We assume no liability or responsibility for downloading or uploading files not in public domain
-      in your country.&nbsp; Please respect copyright laws in your country.</font>&nbsp; 
-    </big>
-  </big>
-  <big>
-    <big >
-    <span style="font-size: 23px; font-family: times">
-      Individuals may be held liable for copyright infringements by copyright owners. <br></span>
-    </big>
-  </big>
-</p>
-<p class="DefaultText" style="margin-left:0.1in; margin-right:0.1in; margin-top:0in; margin-bottom:0.0001pt" align="left"><big><br>
-  </big>
-</p>
-<p class="DefaultText" style="margin-left:0.1in; margin-right:0.1in; margin-top:0in; margin-bottom:0.0001pt; font-size: 16px; font-family: times" align="left" ><big><b>General Copyright Guidlines:</b>&nbsp; </big></p>
-<p class="DefaultText" style="margin-left:0.1in; margin-right:0.1in; margin-top:0in; margin-bottom:0.0001pt;  font-size: 16px; font-family: times" align="left"><big> USA.&nbsp;
-    Works published before 1923 are public domain.&nbsp; Copyright lasts for life of composer +&nbsp; 70 years</big></p>
-<p class="DefaultText" style="margin-left:0.1in; margin-right:0.1in; margin-top:0in; margin-bottom:0.0001pt" align="left"><big>Canada, Japan,
-    China:&nbsp; Copyright lasts for life of composer + 50 years.</big><br>
-</p>
+    </div>
+        <br />
+        <br />
+    <div >
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Violin">Violin</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Viola">Viola</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Cello">Cello</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Bass">Bass</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Flute">Flute</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Clarinet">Clarinet</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Oboe-English-Horn">Oboe-English-Horn </span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Bassoon">Bassoon</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Saxophone">Saxophone</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Trumpet">Trumpet</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+
+
+
+
+
+
+
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/trombone">Trombone</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Tuba">Tuba</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Piano">Piano</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b><br />
+      <b> <font size="4" face="Blackadder ITC"> 
+            <a href="/Organ">Organ</span></a>
+            <span style="text-transform: capitalize"> &nbsp; &nbsp; &nbsp;</span>
+          </font>
+      </b>
+      </div>
+        
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+
 <!--Carl seal start-->
 <div align="center"> <br>
   <img alt="" src="/images/Carl-Seal-Low-Res.jpg" height="205" width="200">
@@ -287,8 +282,9 @@
 <style type="text/css">
   body {
       background: transparent url(/images/background_music_sheets.jpg) ;
+
   background-repeat: repeat;
 }
-  </style>
+</style>
 </body>
 </html>

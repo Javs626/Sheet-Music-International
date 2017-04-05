@@ -27,9 +27,8 @@
             </tr>  
         </thead> 
         <tbody>
-            <% files.forEach((file) => {%>
-        <% if(file.filename.charAt(0).toLowerCase() == 'c' || file.filename.charAt(0).toLowerCase() == 'd' ||
-        file.filename.charAt(0).toLowerCase() == 'e') { console.log(file.filename) %>
+             <% files.forEach((file) => {%>
+        <% if(file.filename.charAt(0).toLowerCase() == 'A' || file.filename.charAt(0).toLowerCase() == 'B' ) { console.log(file.filename) %>
         <tr>
           <td>
             <a href="/file/<%= file._id %>" >
@@ -60,6 +59,7 @@
           </div>
          
   </footer>
+  </div>
   <style type="text/css">
   body {
       background: transparent url(/images/background_music_sheets.jpg) ;
@@ -67,6 +67,5 @@
   background-repeat: repeat;
 }
   </style>
-  </div>
 </body>
 </html>

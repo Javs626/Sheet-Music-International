@@ -55,7 +55,7 @@ conn.once("open", function () {
               compositionType: typeOfComposition,
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
-              filePath: metadatafullpath,
+              tags: metadataTags,
               ipType: "public",
               approved: true
             }
@@ -68,7 +68,7 @@ conn.once("open", function () {
         compositionType: 'Soundtrack',
         compositionTitle: 'Starwars Theme Song',
         instrumentType: 'trumpet',
-        filePath: 'master-composerJohn WilliamsSoundtrackStarwars Theme Songtrumpet',
+        tags: 'master-composerJohn WilliamsSoundtrackStarwars Theme Songtrumpet',
         ipType: 'private',
         approved: true
       }
@@ -85,6 +85,9 @@ conn.once("open", function () {
     var select = req.body.ipTypeList
     var selectRegex = ''
     var file = req.body.file.toString()
+    if(file != ""){
+
+    
     var searchTerms = file.split(' ')
     var regex = ''
     var inst = instrType.getInstrument(file)
@@ -109,7 +112,7 @@ conn.once("open", function () {
     // { filename: { $regex: /^A/i } }
 
     gfs.files.find({
-      'metadata.filePath': new RegExp(regex, 'i'),
+      'metadata.tags': new RegExp(regex, 'i'),
       'metadata.ipType': new RegExp(selectRegex, 'i')
     }).collation({
       locale: 'en',
@@ -120,6 +123,11 @@ conn.once("open", function () {
       if (err) return res.status(500).send(err)
       res.render('search', { files: files, query:file})
     })
+  }
+  else{
+    console.log("hey, bad search");
+    res.render('search', {files:undefined,query:file})
+  }
   })
 
   // Displays All files currently in database in json format
@@ -364,11 +372,11 @@ conn.once("open", function () {
             .split('~').toString()
             .split(',')
 
-          var metadatafullpath = levels.toString() + name
-          metadatafullpath = metadatafullpath.split(',')
-          metadatafullpath = metadatafullpath.filter(function (metadatafullpath) { return metadatafullpath.trim() != '' })
-          metadatafullpath = metadatafullpath.toString()
-          // console.log("index path: " + metadatafullpath.toLocaleLowerCase())
+          var metadataTags = levels.toString() + name
+          metadataTags = metadataTags.split(',')
+          metadataTags = metadataTags.filter(function (metadataTags) { return metadataTags.trim() != '' })
+          metadataTags = metadataTags.toString()
+          // console.log("index path: " + metadataTags.toLocaleLowerCase())
           levels = levels.filter(function (levels) { return levels.trim() != '' })
 
           var pathRootLevel = ((levels[0] != undefined) ? levels[0].toLowerCase() : '')
@@ -396,7 +404,7 @@ conn.once("open", function () {
               compositionType: typeOfComposition,
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
-              filePath: metadatafullpath,
+              tags: metadataTags,
               ipType: shmType,
               approved: true
             }

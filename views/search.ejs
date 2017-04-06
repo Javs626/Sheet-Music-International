@@ -1,95 +1,111 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-  <head>
-    <title>Sheet Music International</title>
-    <style type="text/css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js">
+
+<script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+      <% include ../views/partials/nav %>
+
+
+<% if(files != undefined) { %>
+  <div>
+  <div class="col-md-10 col-md-offset-1">
+    <h4>Found <strong><%= files.length %></strong> result(s) for <strong><%= query%><strong></h4>
+    <% var totalFiles = files.length; 
+      var pageSize = 20;
+      var numberOfPageItems = pageSize/totalFiles;
+      var currentPage = 0;
+    %>
+
+<script>
+$(document).ready(function() {
+    $('#results').DataTable({searching: false});
+} );
+</script>
+    <table id="results" class="table table-bordered table-hover results-table">
+      <thead>  
+            <tr>  
+                <th class="text-center">Composer</th>  
+                <th class="text-center">Composition</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Filename</th>
+                <th class="text-center">Download</th>
+            </tr>  
+        </thead> 
+        <tbody>
+             <% for(var i = 0; i < files.length ; i++) { %>
+        <tr>
+          <td class="results-table-col">
+              <p><%= files[i].metadata.composerName.replace(/\.[^/.]+$/, "") %></p>
+          </td>
+          <td class="results-table-col">
+            <p><%= files[i].metadata.compositionType  %> </p>
+          </td>
+          <td class="results-table-col">
+            <p><%= files[i].metadata.compositionTitle  %> </p>
+          </td>
+          <td class="results-table-col">
+            <p><%= files[i].filename %></p>
+          </td>
+          <td class="results-table-col">
+            <a class="btn btn-default" href="/file/<%= files[i]._id %>" >Download</a>
+          </td>
+        </tr>
+   <%  } %>
+        </tbody>
+    </table>
+    </div>
+  </div>
+  <% } %>
+  <% if(files === undefined) { %>
+  <h4 class="text-center">No Results Found</h4>
+  <% } %>
+  <div class="col-md-12">
+  <footer>
+          <div align="center">
+          Sheet Music International<br />
+      Copyright 2016 all rights reserved<br />
+      Website Managed by Carl Reiter<br />
+          </div>
+         
+  </footer>
+  </div>
+  <style type="text/css">
   body {
-      background: transparent url(http://www.mutopiaproject.org/images/bg-darker.jpg) repeat scroll 30% -15%;
+      background: transparent url(/images/background_music_sheets.jpg) ;
+
   background-repeat: repeat;
 }
+
+.results-table {
+    width:100%;
+    background-color:white;
+}
+
+.results-table-col {
+  text-align: center;
+    width:25%; // 4 evenly sized columns
+}
+.result-table-header{
+  text-align:center;
+}
   </style>
-  </head>
-  <body style="text-align: center;">
-    <table width="100%" cellpadding="2" cellspacing="2">
-      <tbody>
-        <tr>
-          <td colspan="3" rowspan="1" valign="top">
-            <p align="center"><b><font size="7" face="Amaze">Sheet Music
-                  International Archives</font><font size="+2"><br>
-                  Free downloadable public domain sheet music.&nbsp; </font></b><b><font
-                  size="+2"><br>
-                </font></b></p>
-            <center>
-              <table id="AutoNumber18" style="border-collapse:
-                collapse;" bordercolorlight="#C0C0C0"
-                bordercolordark="#C0C0C0" height="104" width="1200"
-                cellpadding="0" cellspacing="0" border="3"
-                bordercolor="#111111">
-                <tbody>
-                  <tr>
-                    <td bordercolordark="#FFFFFF"
-                      bordercolorlight="#FFFFFF" bordercolor="#C0C0C0"
-                      width="90%" align="center" bgcolor="#C0C0C0">
-
-                      <b> <font size="4" face=" ITC"> <a
-                            href="index.html">h<span
-                              style="text-transform: capitalize">ome</span></a><span
-                            style="text-transform: capitalize"> &nbsp;
-                            &nbsp; &nbsp;</span></font></b><b><font
-                          size="4" face=" ITC"><a
-                            href="Sheet-Music/master-composers/">Major
-                            Composere</a></font></b><font size="4"
-                        face=" ITC"> &nbsp; &nbsp;&nbsp; <b><a
-                            href="repertoire-instrumental.html">Repertoire</a>
-                          &nbsp; &nbsp;&nbsp; <a
-                            href="School-Music.html">School Music</a></b>
-                        &nbsp; &nbsp;&nbsp; </font><b><font size="4"
-                          face=" ITC"><a href="FAQ.html.html">FAQ</a>
-                          &nbsp; &nbsp;&nbsp; <a
-                            href="Log-In.html.html">Log in</a> &nbsp;
-                          &nbsp;&nbsp; <a
-                            href="Upload-Music-to-Public-Library.html.html">Upload
-
-                            Music</a> &nbsp; &nbsp; &nbsp;<a
-                            href="donate.html">Donate</a></font></b><br>
-                      <div align="left"><b><font size="4"
-                            face=" ITC">Other Composers
-                            Director &nbsp;&nbsp; <a
-                              href="Sheet-Music/composers/A-B/">A-B</a>,&nbsp;
-                            <a href="Sheet-Music/composers/C-E/">C-E</a>,&nbsp;
-                            <a href="Sheet-Music/composers/F-H/">F-H</a>,&nbsp;
-                            <a href="Sheet-Music/composers/I-N/">I-N</a>,&nbsp;
-                            <a href="Sheet-Music/composers/O-R/">O-R</a>,&nbsp;
-                            <a href="Sheet-Music/composers/S-Z/">S-Z</a>&nbsp;&nbsp;&nbsp;</font></b><b><font
-                            size="4" face=" ITC"></font></b></div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </center>
-          </td>
-        </tr>
-
-
-        <tr>
-          <td valign="top">Sheet Music International<br>
-            Copyright 2016 all rights reserved<br>
-            Website Managed by Carl Reiter<br>
-          </td>
-          <td valign="top"><br> 
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p>Showing <%= files.length %> results for <strong><%= query%><strong></p>
-            <ul> 
-    <% files.forEach((file) => {%>
- <a href="/file/<%= file._id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= file.metadata.composerName.replace(/\.[^/.]+$/, "")
-+ " - " + file.metadata.compositionType + " " + file.filename %></h4>
-      <p class="list-group-item-text"><%= file.id %></p>
-   <%  }) %>
-    </ul>
-  </body>
+</body>
 </html>

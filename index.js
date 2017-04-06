@@ -85,6 +85,9 @@ conn.once("open", function () {
     var select = req.body.ipTypeList
     var selectRegex = ''
     var file = req.body.file.toString()
+    if(file != ""){
+
+    
     var searchTerms = file.split(' ')
     var regex = ''
     var inst = instrType.getInstrument(file)
@@ -120,6 +123,11 @@ conn.once("open", function () {
       if (err) return res.status(500).send(err)
       res.render('search', { files: files, query:file})
     })
+  }
+  else{
+    console.log("hey, bad search");
+    res.render('search', {files:undefined,query:file})
+  }
   })
 
   // Displays All files currently in database in json format

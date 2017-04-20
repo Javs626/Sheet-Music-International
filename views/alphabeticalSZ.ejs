@@ -12,9 +12,7 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-      <% include ../views/partials/nav %>
-
-
+      {% include "./partials/nav.ejs" %}
 
   <div>
   <div class="col-md-10 col-md-offset-1">
@@ -27,28 +25,28 @@
             </tr>  
         </thead> 
         <tbody>
-              <% files.forEach((file) => {%>
-        <% if(file.filename.charAt(0).toLowerCase() == 's' || file.filename.charAt(0).toLowerCase() == 't' ||
-        file.filename.charAt(0).toLowerCase() == 'u' || file.filename.charAt(0).toLowerCase() == 'v' || file.filename.charAt(0).toLowerCase() == 'w' || file.filename.charAt(0).toLowerCase() == 'x' || file.filename.charAt(0).toLowerCase() == 'y' || file.filename.charAt(0).toLowerCase() == 'z') { console.log(file.filename) %>
+
+             {% for file in files %}
+        {% if file.filename.charAt(0)|lower == 's' || file.filename.charAt(0)|lower == 't'|| file.filename.charAt(0)|lower == 'u' 
+        || file.filename.charAt(0)|lower == 'v'|| file.filename.charAt(0)|lower == 'w'|| file.filename.charAt(0)|lower == 'x' 
+        || file.filename.charAt(0)|lower == 'y'|| file.filename.charAt(0)|lower == 'z'%}
         <tr>
           <td>
-            <a href="/file/<%= file._id %>" >
-              <%= file.filename.replace(/\.[^/.]+$/, "") %>
+            <a href="/file/{{file._id.valueOf()}}">
+              {% filter replace('/\.[^/.]+$/', "") %}{{file.filename}}{% endfilter %}
            </a>
           </td>
           <td>
-            <h4 ><%= file.length %></h4>
+            <h4 >{{file.length}}</h4>
           </td>
         </tr>
-          <p class="list-group-item-text"><%= file.id %></p>
+          <p class="list-group-item-text">{{file.id}}</p>
+        {% endif %}
+   {% endfor %}
 
-        <% } %>
-   <%  }) %>
         </tbody>
     </table>
     </div>
-
-
 
   </div>
   <div class="col-md-12">
@@ -60,13 +58,13 @@
           </div>
          
   </footer>
+  </div>
   <style type="text/css">
   body {
-      background: transparent url(/images/background_music_sheets.jpg) ;
+      background: transparent url(/images/background_music_sheets.jpg);
 
   background-repeat: repeat;
 }
   </style>
-  </div>
 </body>
 </html>

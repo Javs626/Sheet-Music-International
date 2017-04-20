@@ -21,62 +21,35 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-      <% include ../views/partials/nav %>
+      {% include "./partials/nav.ejs" %}
 
 
-<% if(files != undefined) { %>
+{% if files !== undefined %}
   <div>
   <div class="col-md-10 col-md-offset-1">
-    <h4>Found <strong><%= files.length %></strong> result(s) for <strong><%= query%><strong></h4>
-    <% var totalFiles = files.length; 
-      var pageSize = 20;
-      var numberOfPageItems = pageSize/totalFiles;
-      var currentPage = 0;
-    %>
+    <h4>Found <strong>{{files.length}}</strong> result(s) for <strong>{{query}}<strong></h4>
+    {% set totalFiles = files.length %}
+    {% set pageSize = 100 %}
+    {% set numberOfPageItems = pageSize/totalFiles %}
+    {% set currentPage = 0 %}
+    
 
 <script>
 $(document).ready(function() {
     $('#results').DataTable({searching: false});
 } );
-</script>
-    <table id="results" class="table table-bordered table-hover results-table">
-      <thead>  
-            <tr>  
-                <th class="text-center">Composer</th>  
-                <th class="text-center">Composition</th>
-                <th class="text-center">Title</th>
-                <th class="text-center">Filename</th>
-                <th class="text-center">Download</th>
-            </tr>  
-        </thead> 
-        <tbody>
-             <% for(var i = 0; i < files.length ; i++) { %>
-        <tr>
-          <td class="results-table-col">
-              <p><%= files[i].metadata.composerName.replace(/\.[^/.]+$/, "") %></p>
-          </td>
-          <td class="results-table-col">
-            <p><%= files[i].metadata.compositionType  %> </p>
-          </td>
-          <td class="results-table-col">
-            <p><%= files[i].metadata.compositionTitle  %> </p>
-          </td>
-          <td class="results-table-col">
-            <p><%= files[i].filename %></p>
-          </td>
-          <td class="results-table-col">
-            <a class="btn btn-default" href="/file/<%= files[i]._id %>" >Download</a>
-          </td>
-        </tr>
-   <%  } %>
-        </tbody>
-    </table>
+</script>  
+    {% for i in files %}
+            <a  href="/file/{{i._id.valueOf()}}" >{{i.metadata.composerName}}-{{i.metadata.compositionTitle}}-{{i.metadata.compositionType}}-{{i.filename}}</a>
+            <br>
+   {%  endfor %}
+ 
     </div>
   </div>
-  <% } %>
-  <% if(files === undefined) { %>
+  {% endif %}
+  {% if files === undefined  %}
   <h4 class="text-center">No Results Found</h4>
-  <% } %>
+  {% endif %}
   <div class="col-md-12">
   <footer>
           <div align="center">

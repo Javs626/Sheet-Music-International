@@ -1,3 +1,20 @@
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script type="text/javascipt">
+function store(){
+localStorage.setItem('user', JSON.stringify({{user}}));
+}
+window.onload = store;
+</script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
 <!-- views/partials/nav.ejs -->
   <h1 style="text-align: center; font-size: 48px; font-weight: bold; font-family: serif;">Sheet Music International Archives</h1>
     <p style="font-family: times; font-weight: bold; font-size: 24px; text-align: center;"> Free downloadable public domain sheet music.  </p>
@@ -6,8 +23,8 @@
   <div>
   <form action="/search" method="POST" >
   <select name="ipTypeList">
-        <option value="public">Public Music</option>
         <option value="all">All Music</option>
+        <option value="public">Public Music</option>
         </select>
   <input type="text" name="file">
   <input type="submit" value="Search">
@@ -15,7 +32,7 @@
 </div>     
     <span style="width: 75%">          
       <b> <font size="4" face=" ITC"> 
-            <a href="/">Home</span></a>
+            <a href="/user">Home</span></a>
             <span style="text-transform: capitalize"> &nbsp;</span>
           </font>
       </b>
@@ -84,3 +101,32 @@
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
 -->
+
+<h3 class="text-center">Hello {{user.firstname}} you are now signed in.</h3>
+<center>
+<div>
+<h4>Profile Information</h4>
+<p>Name: {{user.fullname}}</p>
+<p>Email: {{user.email}}</p>
+</div>
+</center>
+<center>
+ <div>
+ <h4>Personal Library</h4>
+ {% if user.musicCollection.length() > 0 || user.musicCollection != undefined %}
+ {% for i in user.musicCollection %}
+            <a  href="/file/{{i._id.valueOf()}}" >{{i.metadata.composerName}} - {{i.metadata.compositionTitle}} - {{i.metadata.compositionType}}-{{i.filename}}</a>
+ {% endfor %}
+{%else%}
+<p>Nothing here yet.</p>
+ {% endif %}
+ </div>
+ </center>
+  <style type="text/css">
+  body {
+      background: transparent url(/images/background_music_sheets.jpg);
+
+  background-repeat: repeat;
+}
+  </style>
+</body>

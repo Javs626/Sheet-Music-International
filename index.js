@@ -6,7 +6,12 @@ var path = require('path')
 var multer = require('multer')
 var upload = multer({ dest: './uploads' })
 var http = require('http')
-
+var util = require('util');
+var passport = require('passport')
+var login = require('./login');
+var request = require('request');
+var dotenv = require('dotenv');
+var config = require('./config');
 var mongoose = require('mongoose')
 var uri = 'mongodb://127.0.0.1/'
 var options = { server: { socketOptions: { connectTimeoutMS: 10000 } } }
@@ -21,6 +26,25 @@ var progress = require('./modules/progressCounter.js');
 var Grid = require("gridfs-stream");
 Grid.mongo = mongoose.mongo;
 
+dotenv.load();
+// Configure Logging
+config.log(app);
+
+// Configure templates
+config.template(app);
+
+// Configure parsers
+config.parsers(app);
+
+// Configure session
+config.session(app);
+
+// Configure passport
+config.passport(app);
+
+// Configure static folders
+config.static(app);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use( express.static( "public" ) );
@@ -33,11 +57,38 @@ conn.once("open", function () {
   console.log("We are up and running! localhost 3000");
   gfs = Grid(conn.db);
   sheetMusicFile = gfs.files;
+
+    app.get('/',
+    login.redirectIfAuth('/user'),
+    function(req, res) {
+      res.render('home', {
+        env: {
+          AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+          AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+          AUTH0_CALLBACK_URL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+        }
+      });
+    });
+
+      app.get('/callback',
+    passport.authenticate('auth0'),
+    function(req, res) {
+      // Check if the user has an account type flag
+      // If they don't, they are not registered and need to
+      // be taken to the registration page
+      if (!req.user._json.user_metadata || !req.user._json.user_metadata.account_type) {
+        res.redirect("/register");
+      } else {
+        req.user.account_type = req.user._json.user_metadata.account_type;
+      }
+      res.redirect("/user");
+    });
+    /*
   app.get("/", function (req, res) {
     //renders a multipart/form-data form
 
     res.render("home");
-  });
+  });*/
 
   //second parameter is multer middleware.
   app.post("/", upload.single("avatar"), function (req, res, next) {
@@ -121,7 +172,7 @@ conn.once("open", function () {
       filename: 1
     }).toArray((err, files) => {
       if (err) return res.status(500).send(err)
-      res.render('search', { files: files, query:file})
+      res.render('search', { files: files, query: req.body.file})
     })
   }
   else{
@@ -144,6 +195,14 @@ conn.once("open", function () {
       res.render('schoolMusic', { files: files })
     })
   })
+
+  app.get('/donate', (req, res) => {
+      res.render('donate')
+  })
+  /*app.get('/register', (req, res) => {
+      res.render('register')
+
+  })*/
 
   app.get('/faq', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
@@ -336,18 +395,20 @@ conn.once("open", function () {
       , options
       ;
       var uploadCount = 0;
-    walker = walk.walk('./master-composers');
+      var sheetMusicPath = '/home/sheetmus/public_html/Sheet-Music/';
+    walker = walk.walk(sheetMusicPath);
 
     walker.on("file", function (root, fileStats, next) {
       fs.readFile(fileStats.name, function () {
+            // /home/sheetmus/public_html/Sheet-Music/
         var name = fileStats.name
         var path = root + '\\' // path without file name
         var fPath = path + name // path with file name
         uploadCount++;
-        var shmType = "public";
-        if(uploadCount > 1000){
-            shmType = "private";
-        }
+        var shmType = "";
+        //if(uploadCount > 1000){
+        //    shmType = "private";
+        //}
         //console.log("blue");
         progress.calculateProgressPercentage(uploadCount);
         //console.log(fPath)
@@ -379,11 +440,20 @@ conn.once("open", function () {
           // console.log("index path: " + metadataTags.toLocaleLowerCase())
           levels = levels.filter(function (levels) { return levels.trim() != '' })
 
-          var pathRootLevel = ((levels[0] != undefined) ? levels[0].toLowerCase() : '')
-          var composerLevel = ((levels[1] != undefined) ? levels[1].toLowerCase() : '')
+          var pathRootLevel = ((levels[1] != undefined) ? levels[0].toLowerCase() : '')
+          var composerLevel = ((levels[2] != undefined) ? levels[1].toLowerCase() : '')
           var typeOfInstrument = instrType.getInstrument(fPath)
           var typeOfComposition = compType.getComposition(fPath)
           var compositionTitle = getCompositionTitle(levels)
+/*
+Copyrighted-Music-For-Sale/  School-Music/  master-composers/  temp-folder-copyrighted-music/         composers/      new-music/
+ */
+          if(pathRootLevel == "Copyrighted-Music-For-Sale"){
+            shmType = "copyrighted";
+          }
+          else{
+            shmType = "public";
+          }
           // for debugging
           
                     //console.log("composerType: " + pathRootLevel)
@@ -508,6 +578,87 @@ conn.once("open", function () {
     })
   })
 
+  
+app.get('user',function(req,res){
+  res.render('user');
+});
+
+    app.post('/user',
+    login.required,
+    function(req, res) {
+      var fname = req.body.firstname;
+      var lname = req.body.lastname;
+      var email = req.body.email;
+      var userid = req.user.id;
+
+      var fullname = fname + " " + lname;
+
+   conn.collection('users').insert( {
+     "userId":userid,
+     "firstname":fname,
+     "lastname":lname,
+     "email":email,
+      "musicCollection" : [],
+      "fullname" : fullname
+   },
+   function(error,response){
+     console.log(response.ops[0]);
+           res.render('user', {
+        user: response.ops[0]
+      });
+   }
+   );
+    });
+
+  app.get('/register',
+    login.required,
+    function(req, res) {
+      console.log(req.user);
+      console.log("bork!");
+      res.render('register', {
+        user: req.user
+      });
+    });
+
+  app.post('/register',
+    login.required,
+    function(req, res) {
+      console.log("bork!");
+      var user_id = req.user.id;
+      var account_type = req.body.account_type;
+      // TODO: Validate your fields here
+
+      request({
+        method: 'PATCH',
+        url: util.format('https://%s/api/v2/users/%s', process.env['AUTH0_DOMAIN'], user_id),
+        json: {
+          user_metadata: {
+            account_type: account_type
+          }
+        },
+        headers: {
+          Authorization: 'Bearer ' + process.env['AUTH0_API_KEY']
+        }
+      },
+      function(error, response, body) {
+        if (error) {
+          console.log(error);
+          throw error;
+        }
+        if (response.statusCode !== 200) {
+          console.log(request.statusCode);
+          console.log(body);
+          throw 'Invalid request';
+        }
+        req.user.account_type = account_type;
+        if (req.query.return_url) {
+          res.redirect(req.query.return_url);
+        } else {
+          res.redirect('/user');
+        }
+      })
+    });
+
   var getCompositionTitle = function (composition) {
     for (var i = composition.length - 1; i > 1; i--) {
       if (instrType.getInstrument(composition[i]) == '' && compType.getComposition(composition[i]) == '') {
@@ -516,6 +667,10 @@ conn.once("open", function () {
     }
     return ''
   }
+
+
+
+
   // delete the image
   /*
   app.get("/delete/:filename", function(req, res){
@@ -533,8 +688,8 @@ conn.once("open", function () {
   });*/
 })
 
-app.set('view engine', 'ejs')
-app.set('views', './views')
+//app.set('view engine', 'ejs')
+//app.set('views', './views')
 
 if (!module.parent) {
   app.listen(3000)

@@ -253,17 +253,17 @@ conn.once("open", function () {
 
     });
   });
-  app.get('/flute', (req, res) => {
+  app.get('/Flute', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/Flute.ejs', { files: files });
+      res.render(__dirname + '/views/repertoire/flute.ejs', { files: files });
 
     });
   });
   app.get('/Clarinet', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/Clarinet.ejs', { files: files });
+      res.render(__dirname + '/views/repertoire/clarinet.ejs', { files: files });
 
     });
   });
@@ -284,7 +284,7 @@ conn.once("open", function () {
   app.get('/Saxophone', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
-      res.render(__dirname + '/views/repertoire/Saxophone.ejs', { files: files });
+      res.render(__dirname + '/views/repertoire/saxophone.ejs', { files: files });
 
     });
   });
@@ -306,6 +306,12 @@ conn.once("open", function () {
     gfs.files.find({}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render(__dirname + '/views/repertoire/piano.ejs', { files: files });
+    });
+  });
+  app.get('/organ', (req, res) => {
+    gfs.files.find({}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render(__dirname + '/views/repertoire/organ.ejs', { files: files });
     });
   });
   //end repertoire

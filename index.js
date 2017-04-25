@@ -253,7 +253,7 @@ conn.once("open", function () {
 
     });
   });
-  app.get('/Flute', (req, res) => {
+  app.get('/flute', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render(__dirname + '/views/repertoire/Flute.ejs', { files: files });

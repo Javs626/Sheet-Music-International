@@ -59,14 +59,19 @@ lock.on("authenticated", function(authResult) {
 <script>
   function startUp(){
     var obj = [
-     "http://classicsunlimitedmusic.com/wp-content/uploads/2013/08/carolyn-broe-245x300.jpg",
-      "http://www.scottsdalestringquartet.com/vln-rose-small192.jpg",
-      "http://www.phoenixstringquartet.com/photos/seal%2024k%20transparant.gif"
+     'public/images/ad1.jpg',
+      'public/images/ad3.jpg',
+      'public/images/ad5.jpg'
       ]
-var rand =  Math.floor((Math.random() * 2) + 0);
-      
-      //document.getElementById("fullsizead").src = obj[rand];
-     document.getElementById("fullsizead").style.backgroundImage = "url("+ obj[Math.floor((Math.random() * 2) + 0)] +")";
+      var links = [
+        'http://www.ClassicsUnlimited.com',
+        'http://www.scottsdalestringquartet.com/',
+        'http://www.PhoenixStringQuartet.com'
+      ]
+var rand =  Math.floor((Math.random() * (obj.length - 1)) + 0);
+//"<a href="+links[i]+" style='display:block' target='_blank'>
+      var advert = "<a href="+links[rand]+" style='display:block' target='_blank'><img src="+ obj[rand] +"></a>";
+     document.getElementById("fullsizead").innerHTML = advert;
   }
 </script>
     <link href="/public/app.css" rel="stylesheet">
@@ -203,26 +208,14 @@ var rand =  Math.floor((Math.random() * 2) + 0);
       <table height="214" width="237" style="margin-right: 15px">
               <tbody>
                 <tr>
-                  <td valign="top" width="100%" style="text-align: center;"> <br />
-                    Advertise here<br>
+                  <td valign="top" width="100%" > <br />
                     <br>
-                    <table id="fullsizead" width="100%" cellpadding="2" cellspacing="2" border="1">
+                    <table  width="100%" cellpadding="2" cellspacing="2">
                       <tbody>
                         <tr>
-                          <td valign="top" style="border:1px solid black; "><br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
+                          <td valign="top"><br>
+                            <div id="fullsizead">
+                            </div>
                           </td>
                         </tr>
                       </tbody>
@@ -230,7 +223,7 @@ var rand =  Math.floor((Math.random() * 2) + 0);
                     <br>
                     <br>
                     <table height="187" width="228" cellpadding="2"
-                      cellspacing="2" border="1">
+                      cellspacing="2">
                       <tbody>
                         <tr>
                           <td valign="top"><br>

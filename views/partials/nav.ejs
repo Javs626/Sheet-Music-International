@@ -1,9 +1,7 @@
 <!-- views/partials/nav.ejs -->
-  <h1 style="text-align: center; font-size: 48px; font-weight: bold; font-family: serif;">Sheet Music International Archives</h1>
-    <p style="font-family: times; font-weight: bold; font-size: 24px; text-align: center;"> Free downloadable public domain sheet music.  </p>
-<table width="72%" style="margin-left: 14%"><tr>
-  <td style=" background-color: #C0C0C0; border:3px solid black; height: 104px; width: 90%" class="form-inline">
-  <div>
+<table width="100%" class="outer-nav"><tr>
+  <td class="outer-nav">
+  <div class="pull-right">
   <form action="/search" method="POST" >
   <select name="ipTypeList">
         <option value="public">Public Music</option>
@@ -13,7 +11,7 @@
   <input type="submit" value="Search">
 </form>     
 </div>     
-    <span style="width: 75%">          
+    <div style="width: 75%">          
       <b> <font size="4" face=" ITC"> 
             <a href="/">Home</span></a>
             <span style="text-transform: capitalize"> &nbsp;</span>
@@ -61,10 +59,10 @@
           </font>
       </b>
     </span>
-    </span>
+    </div>
     <div align="left"><b><font size="4"
                             face=" ITC">Other Composers
-                            Director &nbsp;&nbsp; <a href="/ab">A-B</a>,&nbsp;
+                            Directories &nbsp;&nbsp; <a href="/ab">A-B</a>,&nbsp;
                             <a href="/ce">C-E</a>,&nbsp;
                             <a href="/fh">F-H</a>,&nbsp;
                             <a href="/in">I-N</a>,&nbsp;
@@ -75,7 +73,8 @@
 </td>
 </tr>
 </table>
-
+<h1 style="text-align: center; font-size: 48px; font-weight: bold; font-family: serif;">Sheet Music International Archives</h1>
+    <p style="font-family: times; font-weight: bold; font-size: 24px; text-align: center;"> Free downloadable public domain sheet music.  </p>
 <!-- 
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="hidden" name="cmd" value="_s-xclick">

@@ -64,11 +64,11 @@ lock.on("authenticated", function(authResult) {
       'public/images/ad5.jpg'
       ]
       var links = [
-        'http://www.ClassicsUnlimited.com',
+        'http://classicsunlimitedmusic.com/',
         'http://www.scottsdalestringquartet.com/',
-        'http://www.PhoenixStringQuartet.com'
+        'http://www.lotuslights.com/'
       ]
-var rand =  Math.floor((Math.random() * (obj.length - 1)) + 0);
+var rand =  Math.floor((Math.random() * 3) + 0);
 //"<a href="+links[i]+" style='display:block' target='_blank'>
       var advert = "<a href="+links[rand]+" style='display:block' target='_blank'><img src="+ obj[rand] +"></a>";
      document.getElementById("fullsizead").innerHTML = advert;
@@ -228,7 +228,6 @@ var rand =  Math.floor((Math.random() * (obj.length - 1)) + 0);
                         <tr>
                           <td valign="top"><br>
                             <br>
-                            Half size add<br>
                             <br>
                             <br>
                             <br>

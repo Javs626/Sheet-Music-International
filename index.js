@@ -22,7 +22,7 @@ var sheetMusicFile
 var gfs
 var compType = require('./modules/compositionTypes.js');
 var instrType = require('./modules/instrumentTypes.js');
-var progress = require('./modules/progressCounter.js');
+//var progress = require('./modules/progressCounter.js');
 var Grid = require("gridfs-stream");
 Grid.mongo = mongoose.mongo;
 
@@ -145,7 +145,7 @@ conn.once("open", function () {
     var compT = compType.getComposition(file)
     for (var i = 0; i < searchTerms.length; i++) {
       if (regex == '') {
-        regex = '(?=.*' + searchTerms[i] + ')'
+        regex = searchTerms[i]
       } else {
         regex = regex + '(?=.*' + searchTerms[i] + ')'
       }
@@ -168,7 +168,6 @@ conn.once("open", function () {
     }).sort({
       filename: 1
     }).toArray((err, files) => {
-      if (err) return res.status(500).send(err)
       res.render('search', { files: files, query: req.body.file})
     })
   }
@@ -178,6 +177,20 @@ conn.once("open", function () {
   }
   })
 
+function removeDuplicates(num) {
+  var x,
+      len=num.length,
+      out=[],
+      obj=[];
+ 
+  for (x=0; x<len; x++) {
+    obj[num[x]]=0;
+  }
+  for (x in obj) {
+    out.push(x);
+  }
+  return out;
+}
   // Displays All files currently in database in json format
   app.get('/fileDisplay', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
@@ -236,6 +249,7 @@ conn.once("open", function () {
 
     });
   });
+  
   app.get('/cello', (req, res) => {
     gfs.files.find({}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
@@ -383,8 +397,8 @@ conn.once("open", function () {
         //    shmType = "private";
         //}
         //console.log("blue");
-        progress.calculateProgressPercentage(uploadCount);
-        //console.log(fPath)
+        //progress.calculateProgressPercentage(uploadCount);
+        console.log(fPath)
         
         // We need to check if the file is a pdf, it is not a pdf, skip
         var fileType = name.split('.')
@@ -489,12 +503,12 @@ Copyrighted-Music-For-Sale/  School-Music/  master-composers/  temp-folder-copyr
 
     walker = walk.walk('./master-composers')
 
-      progress.fileCount = 0;
-      progress.init();
+      //progress.fileCount = 0;
+      //progress.init();
     walker.on('file', function (root, fileStats, next) {
       fs.readFile(fileStats.name, function () {
-        progress.fileCount++;
-        progress.printFileCount();
+        //progress.fileCount++;
+        //progress.printFileCount();
         next() 
       })
     })

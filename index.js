@@ -382,7 +382,7 @@ function removeDuplicates(num) {
       , options
       ;
       var uploadCount = 0;
-      var sheetMusicPath = './sheet-music';
+      var sheetMusicPath = './sheet-music/master-composers';
     walker = walk.walk(sheetMusicPath);
 
     walker.on("file", function (root, fileStats, next) {

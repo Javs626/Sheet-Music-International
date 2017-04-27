@@ -389,7 +389,7 @@ function removeDuplicates(num) {
       fs.readFile(fileStats.name, function () {
             // /home/sheetmus/public_html/Sheet-Music/
         var name = fileStats.name
-        var path = root + '\\' // path without file name
+        var path = root + '\/' // path without file name
         var fPath = path + name // path with file name
         uploadCount++;
         var shmType = "";

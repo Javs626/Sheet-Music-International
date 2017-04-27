@@ -405,7 +405,7 @@ function removeDuplicates(num) {
         fileType = fileType[1].toLowerCase()
         // console.log(fileType[1].toLowerCase())
 
-        if (fileType == 'pdf') {
+       
 
           //  console.log("file type pdf confirmed")
 
@@ -472,7 +472,7 @@ Copyrighted-Music-For-Sale/  School-Music/  master-composers/  temp-folder-copyr
             .on('end', function () { })
             .on('err', function () { console.log('success') })
             .pipe(writestream)
-        }
+        
         next() // go to the next file in the tree
       })
     })

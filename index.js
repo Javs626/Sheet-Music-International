@@ -401,7 +401,7 @@ conn.once("open", function () {
       , options
       ;
       var uploadCount = 0;
-      var sheetMusicPath = '/home/sheetmus/public_html/Sheet-Music/';
+      var sheetMusicPath = './sheet-music';
     walker = walk.walk(sheetMusicPath);
 
     walker.on("file", function (root, fileStats, next) {

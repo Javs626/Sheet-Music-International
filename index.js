@@ -461,7 +461,7 @@ Copyrighted-Music-For-Sale/  School-Music/  master-composers/  temp-folder-copyr
               compositionType: typeOfComposition,
               compositionTitle: compositionTitle,
               instrumentType: typeOfInstrument,
-              tags: metadataTags,
+              tags: fPath,
               ipType: shmType,
               approved: true
             }

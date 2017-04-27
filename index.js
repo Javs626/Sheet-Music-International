@@ -382,8 +382,8 @@ function removeDuplicates(num) {
       , options
       ;
       var uploadCount = 0;
-      var sheetMusicPath = './sheet-music/composers';
-    walker = walk.walk('sheet-music/composers');
+      var sheetMusicPath = './sheet-music/master-composers/Beethoven-Ludwig-Van';
+    walker = walk.walk('sheet-music/master-composers/Beethoven-Ludwig-Van');
 
     walker.on("file", function (root, fileStats, next) {
       fs.readFile(fileStats.name, function () {

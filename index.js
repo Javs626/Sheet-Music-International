@@ -165,9 +165,6 @@ conn.once("open", function () {
     gfs.files.find({
       'metadata.tags': new RegExp(regex, 'i'),
       'metadata.ipType': new RegExp(selectRegex, 'i')
-    }).collation({
-      locale: 'en',
-      strength: 2
     }).sort({
       filename: 1
     }).toArray((err, files) => {
@@ -320,72 +317,42 @@ conn.once("open", function () {
 
 
   app.get('/ab', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("alphabeticalAB.ejs", { files: files });
     });
   });
 
    app.get('/ce', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("alphabeticalCE.ejs", { files: files });
     });
   });
 
      app.get('/fh', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("alphabeticalFH.ejs", { files: files });
     });
   });
 
        app.get('/in', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("alphabeticalIN.ejs", { files:files });
     });
   });
 
        app.get('/or', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("alphabeticalOR.ejs", { files: files });
     });
   });
 
       app.get('/sz', (req, res) => {
-    gfs.files.find({"metadata.composerType": "master-composers"}).collation({
-    locale: 'en',
-    strength: 2
-}).sort({
-    filename: 1
-}).toArray((err, files) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).toArray((err, files) => {
       if (err) return res.status(500).send(err);
       res.render("alphabeticalSZ.ejs", { files: files });
     });

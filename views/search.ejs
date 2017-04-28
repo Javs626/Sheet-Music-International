@@ -40,7 +40,7 @@ $(document).ready(function() {
 } );
 </script>  
     {% for i in files %}
-            <a  href="./{{i.metadata.tags}}" >{{i.metadata.composerName}}-{{i.metadata.compositionTitle}}-{{i.metadata.compositionType}}-{{i.filename}}</a>
+            <a  href="{{i.metadata.tags}}" >{{i.metadata.composerName}}-{{i.metadata.compositionTitle}}-{{i.metadata.compositionType}}-{{i.filename}}</a>
             <br>
    {%  endfor %}
  

@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
 
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--navbar view -->
+    {% include "./partials/nav.ejs" %} {% if files !== undefined %}
+    <div>
+        <div class="col-md-10 col-md-offset-1">
+            <h4>Found result(s) for <strong>{{query}}<strong></h4>
+        {% set totalFiles = files.length %}
+        {% set pageSize = 100 %}
+        {% set numberOfPageItems = pageSize/totalFiles %}
+        {% set currentPage = 0 %}
+        
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  
-<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js">
-
-<script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-      {% include "./partials/nav.ejs" %}
-
-
-{% if files !== undefined %}
-  <div>
-  <div class="col-md-10 col-md-offset-1">
-    <h4>Found result(s) for <strong>{{query}}<strong></h4>
-    {% set totalFiles = files.length %}
-    {% set pageSize = 100 %}
-    {% set numberOfPageItems = pageSize/totalFiles %}
-    {% set currentPage = 0 %}
-    
-
-<script>
-$(document).ready(function() {
-    $('#results').DataTable({searching: false});
-} );
-</script>  
-    {% for i in files %}
-            <a  href="/file/{{i._id.valueOf()}}" >{{i.metadata.composerName}}-{{i.metadata.compositionTitle}}-{{i.metadata.compositionType}}-{{i.filename}}</a>
-            <br>
-   {%  endfor %}
+    <script>
+        $(document).ready(function () {
+            $('#results').DataTable({ searching: false });
+        });
+    </script>  
+        {% for i in files %}
+                <a  href="/file/{{i._id.valueOf()}}" >{{i.metadata.composerName}}-{{i.metadata.compositionTitle}}-{{i.metadata.compositionType}}-{{i.filename}}</a>
+                <br>
+    {%  endfor %}
  
     </div>
   </div>

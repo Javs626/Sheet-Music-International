@@ -372,6 +372,13 @@ function removeDuplicates(num) {
     });
   });
 
+  app.get('/masterComposers', (req, res) => {
+    gfs.files.find({"metadata.composerType": "master-composers"}).toArray((err, files) => {
+      if (err) return res.status(500).send(err);
+      res.render("masterComposers.ejs", { files: files });
+    });
+  });
+
   app.post("/pop", function (req, res) {
 
     "use strict";

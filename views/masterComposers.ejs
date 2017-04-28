@@ -1,95 +1,108 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html> 
 <html>
-  <head>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="/css/nav.css">
     <title>Sheet Music International</title>
+
+    <script>
+        var AUTH0_CLIENT_ID = '{{env.AUTH0_CLIENT_ID}}';
+        var AUTH0_DOMAIN = '{{env.AUTH0_DOMAIN}}';
+        var AUTH0_CALLBACK_URL = '{{env.AUTH0_CALLBACK_URL}}';
+    </script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="https://cdn.auth0.com/w2/auth0-widget-5.js"></script>
+    <script src="https://cdn.auth0.com/w2/auth0-7.6.1.min.js"></script>
+    <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/public/app.js"> </script>
+<script type="text/javascript">
+var lock = new Auth0Lock(
+  'ZVc76goDgE70BwtzczOfOWBxsV1m9P7W',
+  'javs.auth0.com'
+);
+
+lock.on("authenticated", function(authResult) {
+  // Use the token in authResult to getUserInfo() and save it to localStorage
+  lock.getUserInfo(authResult.accessToken, function(error, profile) {
+    if (error) {
+      // Handle error
+      return;
+    }
+
+    localStorage.setItem('accessToken', authResult.accessToken);
+    localStorage.setItem('profile', JSON.stringify(profile));
+  });
+});
+</script>
+<script src="https://cdn.auth0.com/js/lock/10.14/lock.min.js"></script>
+<script>
+  var lock = new Auth0Lock('ZVc76goDgE70BwtzczOfOWBxsV1m9P7W', 'javs.auth0.com', {
+    auth: {
+      redirectUrl: 'http://localhost:3000/callback',
+      responseType: 'code',
+      params: {
+        scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+      }
+    }
+  });
+</script>
+
+
+<script src="jquery-1.11.3.js" type="text/javascript"></script>
+
+<script>
+  function startUp(){
+    var obj = [
+     'public/images/ad1.jpg',
+      'public/images/ad3.jpg',
+      'public/images/ad5.jpg'
+      ]
+      var links = [
+        'http://classicsunlimitedmusic.com/',
+        'http://www.scottsdalestringquartet.com/',
+        'http://www.lotuslights.com/'
+      ]
+var rand =  Math.floor((Math.random() * 3) + 0);
+//"<a href="+links[i]+" style='display:block' target='_blank'>
+      var advert = "<a href="+links[rand]+" style='display:block' target='_blank'><img src="+ obj[rand] +"></a>";
+     document.getElementById("fullsizead").innerHTML = advert;
+  }
+</script>
+    <link href="/public/app.css" rel="stylesheet">
+        <!--<link href="Sheet-Music-International/public/app.css" rel="stylesheet"> -->
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Custom Fonts -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+</head>
+
+
+  <body id="page-top" onload="startUp()">
+{% include "./partials/nav.ejs" %}
+
+{% for file in files %}  
+        {% if file.filename.charAt(0)|lower == 'a' || file.filename.charAt(0)|lower == 'b'  %}
+ <a href="/file/<%= file._id %>" class="list-group-item">
+      <h4 class="list-group-item-heading">{% filter replace('/\.[^/.]+$/', "") %}{{file.filename}}{% endfilter %}</h4>
+      <p class="list-group-item-text">{{file.id}}</p>
+        {% endif %}
+   {% endfor %}
+    </ul>
+
+
     <style type="text/css">
   body {
-      background: transparent url(http://www.mutopiaproject.org/images/bg-darker.jpg) repeat scroll 30% -15%;
+      background: transparent url(/images/background_music_sheets.jpg) ;
   background-repeat: repeat;
 }
   </style>
-  </head>
-  <body style="text-align: center;">
-    <table width="100%" cellpadding="2" cellspacing="2">
-      <tbody>
-        <tr>
-          <td colspan="3" rowspan="1" valign="top">
-            <p align="center"><b><font size="7" face="Amaze">Sheet Music
-                  International Archives</font><font size="+2"><br>
-                  Free downloadable public domain sheet music.&nbsp; </font></b><b><font
-                  size="+2"><br>
-                </font></b></p>
-            <center>
-              <table id="AutoNumber18" style="border-collapse:
-                collapse;" bordercolorlight="#C0C0C0"
-                bordercolordark="#C0C0C0" height="104" width="1200"
-                cellpadding="0" cellspacing="0" border="3"
-                bordercolor="#111111">
-                <tbody>
-                  <tr>
-                    <td bordercolordark="#FFFFFF"
-                      bordercolorlight="#FFFFFF" bordercolor="#C0C0C0"
-                      width="90%" align="center" bgcolor="#C0C0C0">
-
-                      <b> <font size="4" face="Blackadder ITC"> <a
-                            href="index.html">h<span
-                              style="text-transform: capitalize">ome</span></a><span
-                            style="text-transform: capitalize"> &nbsp;
-                            &nbsp; &nbsp;</span></font></b><b><font
-                          size="4" face="Blackadder ITC"><a
-                            href="Sheet-Music/master-composers/">Major
-                            Composere</a></font></b><font size="4"
-                        face="Blackadder ITC"> &nbsp; &nbsp;&nbsp; <b><a
-                            href="repertoire-instrumental.html">Repertoire</a>
-                          &nbsp; &nbsp;&nbsp; <a
-                            href="School-Music.html">School Music</a></b>
-                        &nbsp; &nbsp;&nbsp; </font><b><font size="4"
-                          face="Blackadder ITC"><a href="FAQ.html.html">FAQ</a>
-                          &nbsp; &nbsp;&nbsp; <a
-                            href="Log-In.html.html">Log in</a> &nbsp;
-                          &nbsp;&nbsp; <a
-                            href="Upload-Music-to-Public-Library.html.html">Upload
-
-                            Music</a> &nbsp; &nbsp; &nbsp;<a
-                            href="donate.html">Donate</a></font></b><br>
-                      <div align="left"><b><font size="4"
-                            face="Blackadder ITC">Other Composers
-                            Director &nbsp;&nbsp; <a
-                              href="Sheet-Music/composers/A-B/">A-B</a>,&nbsp;
-                            <a href="Sheet-Music/composers/C-E/">C-E</a>,&nbsp;
-                            <a href="Sheet-Music/composers/F-H/">F-H</a>,&nbsp;
-                            <a href="Sheet-Music/composers/I-N/">I-N</a>,&nbsp;
-                            <a href="Sheet-Music/composers/O-R/">O-R</a>,&nbsp;
-                            <a href="Sheet-Music/composers/S-Z/">S-Z</a>&nbsp;&nbsp;&nbsp;</font></b><b><font
-                            size="4" face="Blackadder ITC"></font></b></div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </center>
-          </td>
-        </tr>
-        
-        <tr>
-          <td valign="top">Sheet Music International<br>
-            Copyright 2016 all rights reserved<br>
-            Website Managed by Carl Reiter<br>
-          </td>
-          <td valign="top"><br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <ul>
-    <% files.forEach((file) => {%>
-        <% if(file.metadata.composerName.charAt(0).toLowerCase() == 'a' ||
-        file.metadata.composerName.charAt(0).toLowerCase() == 'b') { console.log(file.metadata.composerName) %>
- <a href="/file/<%= file._id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= file.metadata.composerName.replace(/\.[^/.]+$/, "") %></h4>
-      <p class="list-group-item-text"><%= file.id %></p>
-        <% } %>
-   <%  }) %>
-    </ul>
   </body>
 </html>

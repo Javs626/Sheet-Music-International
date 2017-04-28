@@ -48,6 +48,7 @@ config.static(app);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use( express.static( "public" ) );
+app.use('/sheet-music', express.static( 'sheet-music' ) );
 
 
 //this line is used to add files inside the public folder

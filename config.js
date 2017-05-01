@@ -39,7 +39,7 @@ exports.passport = function(app) {
     domain:       process.env['AUTH0_DOMAIN'],
     clientID:     process.env['AUTH0_CLIENT_ID'],
     clientSecret: process.env['AUTH0_CLIENT_SECRET'],
-    callbackURL:  process.env['http://localhost:3000/callback'] || 'http://localhost:3000/callback'
+    callbackURL:  process.env['http://www.sheetmusicinternational.com/user'] || 'http://www.sheetmusicinternational.com'
   }, function(accessToken, refreshToken, profile, done) {
     //Some tracing info
     console.log('profile is', profile);

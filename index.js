@@ -17,6 +17,15 @@ var uri = 'mongodb://127.0.0.1/'
 var options = { server: { socketOptions: { connectTimeoutMS: 10000 } } }
 mongoose.connect(uri, options)
 var conn = mongoose.connection
+var auth = require('http-auth');
+var basic = auth.basic ({
+	realm: "SHM area.",
+	}, (username, password, callback) => {
+		callback(username === "Scottsdale" && password === "Philharmonic");
+	}
+);
+
+
 
 var sheetMusicFile
 var gfs
@@ -49,6 +58,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/public', express.static( './public' ) );
 app.use('/sheet-music', express.static( './sheet-music' ) );
+app.use(auth.connect(basic));
 
 conn.once("open", function () {
   console.log("We are up and running! localhost 3000");
@@ -56,7 +66,7 @@ conn.once("open", function () {
   sheetMusicFile = gfs.files;
 
     app.get('/',
-    login.redirectIfAuth('/user'),
+    //login.redirectIfAuth('/user'),
     function(req, res) {
       res.render('home', {
         env: {
